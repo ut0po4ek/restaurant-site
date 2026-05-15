@@ -1,0 +1,20 @@
+---
+interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: className = '' } = Astro.props;
+const words = text.split(' ');
+---
+
+<p class={`scroll-text ${className}`} data-scroll-text>
+  {words.map((word) => <span data-word>{word}&nbsp;</span>)}
+</p>
+
+<style>
+  .scroll-text {
+    margin: 0;
+    color: var(--color-fg);
+  }
+</style>

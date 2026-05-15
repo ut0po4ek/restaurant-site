@@ -1,0 +1,113 @@
+---
+import Button from '../ui/Button.astro';
+---
+
+<section id="events" class="events-section section-padding">
+  <div class="container-site events-grid">
+    <div class="event-image" data-reveal="left">
+      <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1400&q=86" alt="Бутылки вина и камерная атмосфера винного вечера" loading="lazy" />
+    </div>
+    <div class="event-copy" data-reveal="right">
+      <span class="eyebrow-line">События</span>
+      <h2>Винные ужины и камерные встречи</h2>
+      <p>
+        Раз в месяц мы собираем гостей за длинным столом: сезонные блюда, небольшие партии вина и спокойный разговор с шефом о вкусе, регионе и времени года.
+      </p>
+      <div class="event-card">
+        <span>Ближайший ужин</span>
+        <strong>Пятница, 20:00</strong>
+        <p>Тоскана: красные вина, мясо на гриле и домашняя паста.</p>
+      </div>
+      <Button href="#reservation" variant="secondary" size="lg">Забронировать место</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .events-section {
+    background: var(--color-bg-dark);
+    color: #f6efe4;
+  }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(22rem, 0.88fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: stretch;
+  }
+
+  .event-image {
+    min-height: clamp(34rem, 48vw, 45rem);
+    overflow: hidden;
+    border: 1px solid rgba(246, 239, 228, 0.13);
+  }
+
+  .event-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 52%;
+    transform: scale(1.02);
+  }
+
+  .event-copy {
+    align-self: center;
+  }
+
+  .eyebrow-line { color: #f0a28e; }
+
+  h2 {
+    margin: 1rem 0 0;
+    color: #f6efe4;
+    font-size: clamp(3rem, 7vw, 6.2rem);
+  }
+
+  .event-copy > p {
+    max-width: 40rem;
+    margin: 1.4rem 0 0;
+    color: rgba(246, 239, 228, 0.70);
+  }
+
+  .event-card {
+    margin: 2rem 0;
+    padding: 1.4rem 0;
+    border-block: 1px solid rgba(246, 239, 228, 0.14);
+  }
+
+  .event-card span {
+    display: block;
+    color: rgba(246, 239, 228, 0.48);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .event-card strong {
+    display: block;
+    margin-top: 0.5rem;
+    color: #f6efe4;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+  }
+
+  .event-card p {
+    margin: 0.4rem 0 0;
+    color: rgba(246, 239, 228, 0.64);
+  }
+
+  :global(.events-section .btn-secondary) {
+    color: #f6efe4;
+    border-color: rgba(246, 239, 228, 0.34);
+  }
+
+  @media (max-width: 900px) {
+    .events-grid { grid-template-columns: 1fr; }
+    .event-image {
+      min-height: clamp(22rem, 62vw, 32rem);
+      order: 2;
+    }
+    .event-copy { order: 1; }
+  }
+</style>

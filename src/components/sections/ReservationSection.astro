@@ -1,0 +1,164 @@
+---
+import Button from '../ui/Button.astro';
+import TextField from '../ui/TextField.astro';
+import PhoneField from '../ui/PhoneField.astro';
+import DatePicker from '../ui/DatePicker.astro';
+import CustomSelect from '../ui/CustomSelect.astro';
+import TextareaField from '../ui/TextareaField.astro';
+import Icon from '../ui/Icon.astro';
+import { guestOptions, reservationTimeOptions } from '../../data/menu';
+import { siteConfig } from '../../config/site';
+
+const socialLinks = [
+  { name: 'telegram', label: 'Telegram', href: siteConfig.contacts.telegram },
+  { name: 'whatsapp', label: 'WhatsApp', href: siteConfig.contacts.whatsapp },
+  { name: 'instagram', label: 'Instagram', href: siteConfig.contacts.instagram },
+  { name: 'vk', label: 'VK', href: siteConfig.contacts.vk },
+] as const;
+---
+
+<section id="reservation" class="reservation-section section-padding">
+  <div class="container-site reservation-grid">
+    <div class="reservation-copy" data-reveal="left">
+      <span class="eyebrow-line">Бронирование</span>
+      <h2>Забронируйте стол</h2>
+      <p>
+        Мы подготовим для вас лучший вечерний свет, спокойный стол и бокал к первому блюду.
+      </p>
+      <dl>
+        <div>
+          <dt>Адрес</dt>
+          <dd>Москва, ул. Поварская, 12</dd>
+        </div>
+        <div>
+          <dt>Время</dt>
+          <dd>Ежедневно 12:00-00:00</dd>
+        </div>
+      </dl>
+      <div class="reservation-socials" aria-label="Соцсети и мессенджеры">
+        {socialLinks.filter((link) => link.href).map((link) => (
+          <a href={link.href} aria-label={link.label}>
+            <Icon name={link.name} size={19} />
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <form class="reservation-form" data-reveal="right">
+      <div class="form-grid">
+        <TextField id="name" name="name" label="Имя" placeholder="Как к вам обращаться" autocomplete="name" required />
+        <PhoneField id="phone" name="phone" label="Телефон" required />
+        <DatePicker id="date" name="date" label="Дата" />
+        <CustomSelect id="time" name="time" label="Время" placeholder="Выберите время" options={reservationTimeOptions} required />
+        <CustomSelect id="guests" name="guests" label="Гости" placeholder="Количество гостей" options={guestOptions} required />
+      </div>
+      <TextareaField id="comment" name="comment" label="Комментарий" placeholder="Повод, пожелания по столу или аллергии" rows={4} />
+      <Button type="submit" variant="submit" size="lg" fullWidth>Отправить заявку</Button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .reservation-section {
+    background: var(--color-bg);
+  }
+
+  .reservation-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(25rem, 1.22fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    align-items: start;
+  }
+
+  h2 {
+    margin: 1rem 0 0;
+    max-width: 9ch;
+    font-size: clamp(3.1rem, 6.6vw, 5.8rem);
+    line-height: 0.92;
+  }
+
+  .reservation-copy p {
+    max-width: 34rem;
+    margin: 1.5rem 0 0;
+    color: var(--color-fg-muted);
+    font-size: 1.08rem;
+  }
+
+  dl {
+    display: grid;
+    gap: 1.3rem;
+    margin: 2.5rem 0 0;
+  }
+
+  dt {
+    color: var(--color-fg-subtle);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0.35rem 0 0;
+    color: var(--color-fg);
+  }
+
+  .reservation-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 2rem;
+  }
+
+  .reservation-socials a {
+    width: 2.7rem;
+    height: 2.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-fg-muted);
+    background: color-mix(in srgb, var(--color-surface) 42%, transparent);
+    transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease, transform 200ms ease;
+  }
+
+  .reservation-socials a:hover,
+  .reservation-socials a:focus-visible {
+    color: var(--color-accent-dark);
+    border-color: color-mix(in srgb, var(--color-accent) 58%, var(--color-border));
+    background: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
+    transform: translateY(-1px);
+    outline: none;
+  }
+
+  .reservation-form {
+    position: relative;
+    z-index: 1;
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-surface) 74%, transparent);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-grid > :last-child {
+    grid-column: span 2;
+  }
+
+  .reservation-form :global(.form-field) {
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .reservation-grid,
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid > :last-child { grid-column: auto; }
+    h2 { max-width: 12ch; }
+  }
+</style>

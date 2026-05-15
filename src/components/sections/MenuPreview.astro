@@ -1,0 +1,203 @@
+---
+import Button from '../ui/Button.astro';
+import { menuCategories } from '../../data/menu';
+
+const previewCategories = menuCategories.slice(0, 4).map((category) => ({
+  ...category,
+  items: category.items.slice(0, 3),
+}));
+---
+
+<section id="menu-preview" class="menu-preview section-padding">
+  <img class="menu-preview-decor decor-cutlery" src="/assets/decor/cutlery.svg" alt="" aria-hidden="true" loading="lazy" />
+  <img class="menu-preview-decor decor-rosemary" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="lazy" />
+  <div class="container-site">
+    <div class="menu-head">
+      <span class="eyebrow-line" data-reveal="up">Меню</span>
+      <h2 data-reveal="up" data-reveal-delay="150">Карта вечера в четырех настроениях</h2>
+      <p data-reveal="up" data-reveal-delay="250">
+        Меню построено вокруг свежих ингредиентов, открытого огня и классических итальянских сочетаний.
+      </p>
+    </div>
+
+    <div class="preview-list">
+      {previewCategories.map((category, index) => (
+        <article data-reveal="up" data-reveal-delay={String(index * 100)}>
+          <div class="category-title">
+            <h3>{category.title}</h3>
+            <span>{category.subtitle}</span>
+          </div>
+          <div class="category-items">
+            {category.items.map((item) => (
+              <div class="menu-row">
+                <div>
+                  <h4>{item.name}</h4>
+                  <p>{item.description}</p>
+                </div>
+                <strong>{item.price}</strong>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="menu-action" data-reveal="up">
+      <Button href="/menu" variant="accent" size="lg">Открыть полное меню</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .menu-preview {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg-warm);
+  }
+
+  .menu-preview-decor {
+    position: absolute;
+    pointer-events: none;
+    object-fit: contain;
+    opacity: 0.16;
+    filter: blur(0.35px) drop-shadow(0 1.2rem 2rem rgba(25, 23, 21, 0.12));
+    animation: menu-preview-float 10s ease-in-out infinite;
+  }
+
+  .decor-cutlery {
+    right: max(1rem, calc((100vw - 1440px) / 2 + 2rem));
+    top: 10%;
+    width: clamp(7rem, 11vw, 10rem);
+    transform: rotate(18deg);
+  }
+
+  .decor-rosemary {
+    left: max(0.75rem, calc((100vw - 1440px) / 2 + 1rem));
+    bottom: 7%;
+    width: clamp(7rem, 13vw, 11.5rem);
+    opacity: 0.22;
+    transform: rotate(-36deg);
+    animation-delay: -4s;
+  }
+
+  :global([data-theme="dark"]) .menu-preview-decor {
+    filter: invert(1) sepia(0.16) saturate(0.55) opacity(0.76) drop-shadow(0 1.2rem 2rem rgba(0, 0, 0, 0.28));
+  }
+
+  @keyframes menu-preview-float {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -0.55rem; }
+  }
+
+  .menu-head {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.42fr) minmax(0, 1fr);
+    gap: clamp(1.4rem, 6vw, 7rem);
+    align-items: start;
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .menu-head h2 {
+    margin: 0;
+    max-width: 13ch;
+    font-size: clamp(3rem, 6.2vw, 5.8rem);
+    line-height: 0.94;
+  }
+
+  .menu-head p {
+    grid-column: 2;
+    max-width: 38rem;
+    margin: 0.4rem 0 0;
+    color: var(--color-fg-muted);
+  }
+
+  .preview-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 4vw, 3rem) clamp(2rem, 6vw, 5rem);
+  }
+
+  article {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.3rem;
+  }
+
+  .category-title {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.42fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    margin-bottom: 1.1rem;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: clamp(2rem, 3.2vw, 3.1rem);
+    line-height: 1;
+  }
+
+  .category-title span {
+    color: var(--color-fg-muted);
+    font-size: 0.9rem;
+  }
+
+  .menu-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: clamp(1rem, 3vw, 1.5rem);
+    padding: 1.15rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
+  }
+
+  .menu-row > div {
+    min-width: 0;
+  }
+
+  h4 {
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .menu-row p {
+    margin: 0.45rem 0 0;
+    color: var(--color-fg-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  strong {
+    color: var(--color-accent-dark);
+    font-size: 0.95rem;
+    white-space: nowrap;
+    padding-top: 0.12rem;
+  }
+
+  .menu-action {
+    margin-top: clamp(2rem, 5vw, 4rem);
+  }
+
+  @media (max-width: 900px) {
+    .menu-head,
+    .preview-list,
+    .category-title { grid-template-columns: 1fr; }
+    .menu-head p { grid-column: auto; margin-top: 0; }
+    .menu-head h2 { max-width: 12ch; }
+  }
+
+  @media (max-width: 540px) {
+    .menu-row {
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+
+    strong { padding-top: 0; }
+    .menu-preview-decor { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-preview-decor { animation: none; }
+  }
+</style>

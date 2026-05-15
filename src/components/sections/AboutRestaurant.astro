@@ -1,0 +1,94 @@
+---
+---
+
+<section id="about" class="about-restaurant section-padding">
+  <div class="container-site">
+    <div class="about-head">
+      <span class="eyebrow-line" data-reveal="up">Почему PICCOLINO</span>
+      <h2 data-reveal="up" data-reveal-delay="150">Итальянская кухня без лишнего шума</h2>
+      <p data-reveal="up" data-reveal-delay="250">
+        Мы готовим простые итальянские блюда из сезонных продуктов — пасту, рыбу, мясо на гриле и десерты, которые завершают вечер мягко и честно.
+      </p>
+    </div>
+
+    <div class="about-gallery">
+      <figure data-reveal="up" data-reveal-delay="150">
+        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=900&q=84" alt="Камерный зал ресторана с мягким вечерним светом" />
+      </figure>
+      <figure class="is-tall" data-reveal="up" data-reveal-delay="300">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=84" alt="Сервированный стол в итальянском ресторане" />
+      </figure>
+      <figure data-reveal="up" data-reveal-delay="450">
+        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=900&q=84" alt="Шеф готовит пасту на кухне" />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-restaurant {
+    background: var(--color-hero);
+    color: #f6efe4;
+  }
+
+  .about-head {
+    max-width: 58rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .about-head .eyebrow-line {
+    justify-content: center;
+    color: rgba(246, 239, 228, 0.66);
+  }
+
+  .about-head h2 {
+    margin: 1rem 0 0;
+    color: #f6efe4;
+    font-size: clamp(3.2rem, 9vw, 7.7rem);
+  }
+
+  .about-head p {
+    margin: 1.4rem auto 0;
+    max-width: 47rem;
+    color: rgba(246, 239, 228, 0.70);
+    font-size: clamp(1rem, 1.8vw, 1.18rem);
+  }
+
+  .about-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1.18fr 1fr;
+    align-items: end;
+    gap: clamp(1rem, 4vw, 4.5rem);
+    margin-top: clamp(3rem, 7vw, 6rem);
+  }
+
+  figure {
+    margin: 0;
+    aspect-ratio: 0.82;
+    overflow: hidden;
+    border: 1px solid rgba(246, 239, 228, 0.13);
+    background: rgba(246, 239, 228, 0.06);
+  }
+
+  figure.is-tall {
+    aspect-ratio: 0.72;
+    transform: translateY(-2rem);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.9) contrast(1.02);
+  }
+
+  @media (max-width: 820px) {
+    .about-gallery { grid-template-columns: 1fr; }
+    figure,
+    figure.is-tall {
+      aspect-ratio: 1.15;
+      transform: none;
+    }
+  }
+</style>

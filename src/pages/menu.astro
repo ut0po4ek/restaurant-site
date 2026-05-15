@@ -1,0 +1,284 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Button from '../components/ui/Button.astro';
+import MenuSection from '../components/sections/MenuSection.astro';
+import { menuCategories } from '../data/menu';
+---
+
+<BaseLayout title="Меню — PICCOLINO" description="Меню ресторана PICCOLINO: закуски, паста, основные блюда, десерты и вино.">
+  <Header />
+  <main class="menu-page" data-salt-progress>
+    <section id="hero" class="menu-hero">
+      <div class="menu-salt" aria-hidden="true"></div>
+      <img class="menu-object menu-object-knife" src="/assets/decor/knife.svg" alt="" aria-hidden="true" loading="eager" />
+      <img class="menu-object menu-object-basil" src="/assets/decor/basil.svg" alt="" aria-hidden="true" loading="eager" />
+      <img class="menu-object menu-object-pasta" src="/assets/decor/pasta.svg" alt="" aria-hidden="true" loading="eager" />
+      <div class="container-site menu-hero-inner">
+        <div class="menu-hero-copy">
+          <a class="back-link" href="/" data-reveal="up">На главную</a>
+          <h1 data-reveal="clip">Menu</h1>
+          <p data-reveal="up" data-reveal-delay="150">
+            Длинная ресторанная карта на темном фоне: паста ручной работы, открытый огонь, десерты и вина, которые собирают вечер.
+          </p>
+          <div class="hero-actions" data-reveal="up" data-reveal-delay="300">
+            <Button href="#starters" variant="secondary" size="lg">Смотреть карту</Button>
+            <Button href="/#reservation" variant="accent" size="lg">Забронировать</Button>
+          </div>
+        </div>
+        <div class="menu-hero-plate" data-scroll-rotate="14" data-reveal="scale">
+          <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1200&q=86" alt="Паста на темной ресторанной тарелке" />
+        </div>
+      </div>
+    </section>
+
+    <div class="container-site menu-categories">
+      {menuCategories.map((category, index) => (
+        <MenuSection category={category} index={index} />
+      ))}
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .menu-page {
+    --salt-progress: 0;
+    --menu-bg-a: #f8efe1;
+    --menu-bg-b: #efe1d0;
+    --menu-bg-c: #e6d5c0;
+    --menu-fg: #191715;
+    --menu-muted: rgba(25, 23, 21, 0.66);
+    --menu-border: rgba(45, 39, 34, 0.17);
+    --menu-border-soft: rgba(45, 39, 34, 0.12);
+    --menu-accent: #9e3f34;
+    --menu-chip-bg: rgba(255, 250, 241, 0.62);
+    --menu-salt-grain: rgba(92, 78, 65, 0.22);
+    --menu-salt-grain-soft: rgba(92, 78, 65, 0.13);
+    --menu-powder: rgba(255, 250, 241, 0.46);
+    --depth-opacity: 0.42;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 78% 10%, rgba(184, 74, 58, 0.12), transparent 30rem),
+      linear-gradient(180deg, var(--menu-bg-a) 0%, var(--menu-bg-b) 48%, var(--menu-bg-c) 100%);
+    color: var(--menu-fg);
+  }
+
+  :global([data-theme="dark"]) .menu-page {
+    --menu-bg-a: #060708;
+    --menu-bg-b: #090b0c;
+    --menu-bg-c: #111719;
+    --menu-fg: #f6efe4;
+    --menu-muted: rgba(246, 239, 228, 0.66);
+    --menu-border: rgba(246, 239, 228, 0.14);
+    --menu-border-soft: rgba(246, 239, 228, 0.13);
+    --menu-accent: #f0a28e;
+    --menu-chip-bg: rgba(246, 239, 228, 0.06);
+    --menu-salt-grain: rgba(246, 239, 228, 0.62);
+    --menu-salt-grain-soft: rgba(246, 239, 228, 0.34);
+    --menu-powder: rgba(246, 239, 228, 0.12);
+    --depth-opacity: 0.5;
+    background:
+      linear-gradient(180deg, var(--menu-bg-a) 0%, var(--menu-bg-b) 44%, var(--menu-bg-c) 100%);
+  }
+
+  .menu-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: calc(0.02 + var(--salt-progress) * 0.36);
+    background-image:
+      radial-gradient(circle at 18% 32%, var(--menu-salt-grain) 0 0.055rem, transparent 0.08rem),
+      radial-gradient(circle at 64% 24%, var(--menu-salt-grain-soft) 0 0.075rem, transparent 0.1rem),
+      radial-gradient(circle at 82% 78%, var(--menu-salt-grain) 0 0.045rem, transparent 0.075rem),
+      radial-gradient(ellipse at 50% 50%, var(--menu-powder), transparent 56%);
+    background-size: 3.1rem 4.7rem, 7.4rem 5.6rem, 5.2rem 8.5rem, 34rem 24rem;
+    background-position: 83% 8%, 9% 36%, 72% 82%, 72% 16%;
+    clip-path: inset(calc((1 - var(--salt-progress)) * 26%) 0 0 0);
+    mask-image:
+      radial-gradient(ellipse at 72% 18%, black 0 22%, transparent 48%),
+      radial-gradient(ellipse at 18% 60%, black 0 18%, transparent 42%),
+      radial-gradient(ellipse at 76% 82%, black 0 12%, transparent 34%);
+    transition: opacity 1200ms ease, clip-path 1400ms var(--ease-out);
+  }
+
+  :global(.menu-page [data-reveal]) {
+    transition-duration: 1100ms, 1100ms, 1300ms, 1100ms;
+  }
+
+  :global(.menu-page [data-reveal="scale"]) {
+    transition-duration: 1250ms, 1250ms, 1250ms, 1250ms;
+  }
+
+  .menu-hero,
+  .menu-categories {
+    position: relative;
+    z-index: 1;
+  }
+
+  .menu-hero {
+    min-height: 100svh;
+    display: grid;
+    align-items: center;
+    padding-top: 6rem;
+    overflow: hidden;
+  }
+
+  .menu-salt {
+    position: absolute;
+    inset: 0;
+    opacity: calc(0.18 + var(--salt-progress) * 0.5);
+    background:
+      radial-gradient(circle at 74% 34%, var(--menu-salt-grain) 0 0.06rem, transparent 0.11rem) 0 0 / 2.6rem 3.4rem,
+      radial-gradient(circle at 78% 36%, var(--menu-salt-grain-soft) 0 0.08rem, transparent 0.13rem) 0 0 / 5.8rem 4.2rem,
+      radial-gradient(ellipse at 72% 38%, var(--menu-powder), transparent 54%);
+    clip-path: inset(calc((1 - var(--salt-progress)) * 22%) 0 0 0);
+    mask-image: radial-gradient(ellipse at 75% 38%, black 0 26%, transparent 64%);
+    transition: opacity 1300ms ease, clip-path 1500ms var(--ease-out);
+  }
+
+  .menu-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.72fr);
+    gap: clamp(2rem, 7vw, 8rem);
+    align-items: center;
+  }
+
+  .back-link {
+    color: var(--menu-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 1rem 0 0;
+    color: var(--menu-fg);
+    font-size: clamp(6rem, 18vw, 16rem);
+    line-height: 0.78;
+  }
+
+  .menu-hero p {
+    max-width: 45rem;
+    margin: 1.6rem 0 0;
+    color: var(--menu-muted);
+    font-size: clamp(1.05rem, 2vw, 1.45rem);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2.2rem;
+  }
+
+  :global([data-theme="dark"] .menu-page .btn-secondary) {
+    color: #f6efe4;
+    border-color: rgba(246, 239, 228, 0.36);
+  }
+
+  .menu-hero-plate {
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .menu-hero-plate::before {
+    content: '';
+    position: absolute;
+    inset: 11%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    filter: blur(34px);
+    transform: translateY(12%);
+  }
+
+  .menu-hero-plate img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.62);
+  }
+
+  .menu-object {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    object-fit: contain;
+    opacity: var(--depth-opacity);
+    animation: menu-object-float 8s ease-in-out infinite;
+  }
+
+  .menu-object-knife {
+    right: clamp(1rem, 5vw, 5rem);
+    top: 18%;
+    width: clamp(2.4rem, 4vw, 3.4rem);
+    height: auto;
+    transform: rotate(31deg);
+    filter: blur(0.35px) drop-shadow(0 1rem 1.4rem rgba(0, 0, 0, 0.18));
+  }
+
+  .menu-object-basil {
+    left: clamp(1rem, 6vw, 6rem);
+    top: 28%;
+    width: clamp(4.5rem, 7vw, 6.4rem);
+    height: auto;
+    filter: drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.16));
+    animation-delay: -3s;
+  }
+
+  .menu-object-pasta {
+    right: 38%;
+    bottom: 12%;
+    width: clamp(5rem, 8vw, 7rem);
+    height: auto;
+    transform: rotate(-18deg);
+    animation-delay: -5s;
+    filter: sepia(0.22) saturate(0.82) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.16));
+  }
+
+  :global([data-theme="dark"]) .menu-object-knife {
+    filter: invert(1) sepia(0.12) saturate(0.55) opacity(0.7) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.28));
+  }
+
+  :global([data-theme="dark"]) .menu-object-basil {
+    filter: invert(0.84) sepia(0.35) saturate(0.78) opacity(0.72) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.28));
+  }
+
+  :global([data-theme="dark"]) .menu-object-pasta {
+    filter: invert(0.9) sepia(0.42) saturate(0.85) opacity(0.78) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.28));
+  }
+
+  @keyframes menu-object-float {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -0.75rem; }
+  }
+
+  .menu-categories {
+    padding-bottom: clamp(4rem, 9vw, 8rem);
+  }
+
+  @media (max-width: 880px) {
+    .menu-hero { min-height: auto; padding-block: 8rem 4rem; }
+    .menu-hero-inner { grid-template-columns: 1fr; }
+    .menu-hero-plate { width: min(100%, 18rem); margin-inline: auto; }
+    .hero-actions :global(.btn) { width: 100%; }
+    .menu-object-knife,
+    .menu-object-pasta { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-object,
+    .menu-page::before,
+    .menu-salt {
+      animation: none;
+      transition: none;
+    }
+  }
+</style>

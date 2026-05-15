@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import HeroRestaurant from '../components/sections/HeroRestaurant.astro';
+import AboutRestaurant from '../components/sections/AboutRestaurant.astro';
+import SignatureDishes from '../components/sections/SignatureDishes.astro';
+import SaltStorySection from '../components/sections/SaltStorySection.astro';
+import MenuPreview from '../components/sections/MenuPreview.astro';
+import AtmosphereEvents from '../components/sections/AtmosphereEvents.astro';
+import ReservationSection from '../components/sections/ReservationSection.astro';
+---
+
+<BaseLayout>
+  <Header />
+  <main>
+    <HeroRestaurant />
+    <AboutRestaurant />
+    <SignatureDishes />
+    <SaltStorySection />
+    <MenuPreview />
+    <AtmosphereEvents />
+    <ReservationSection />
+  </main>
+  <Footer />
+</BaseLayout>
