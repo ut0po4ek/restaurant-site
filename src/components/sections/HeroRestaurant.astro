@@ -3,25 +3,54 @@ import Button from '../ui/Button.astro';
 ---
 
 <section id="hero" class="hero-restaurant">
-  <div class="hero-media" aria-hidden="true">
+  <div class="hero-media">
     <img
-      src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2200&q=88"
-      alt=""
+      src="/assets/photos/home-hero-restaurant.jpg"
+      alt="Теплый зал итальянского ресторана с сервированными столами"
       loading="eager"
       fetchpriority="high"
     />
   </div>
   <div class="hero-shade" aria-hidden="true"></div>
+  <img
+    class="hero-tomato-decor"
+    src="/assets/decor/realistic/tomatoes-vine.png"
+    alt=""
+    aria-hidden="true"
+    loading="eager"
+    data-parallax
+    data-parallax-speed="0.04"
+    data-parallax-rotate="-2.5"
+  />
 
   <div class="container-site hero-inner">
     <div class="hero-copy">
       <h1 data-reveal="clip">PICCOLINO</h1>
-      <p class="hero-subtitle" data-reveal="up" data-reveal-delay="150">
-        Современная итальянская кухня, камерная атмосфера и вкус, который хочется продлить.
-      </p>
-      <div class="hero-actions" data-reveal="up" data-reveal-delay="300">
-        <Button href="/menu" variant="primary" size="lg">Посмотреть меню</Button>
-        <Button href="#reservation" variant="secondary" size="lg">Забронировать стол</Button>
+      <div class="hero-copy-lower">
+        <div class="hero-copy-body">
+          <p class="hero-subtitle" data-reveal="up" data-reveal-delay="150">
+            Современная итальянская кухня, камерная атмосфера и вкус, который хочется продлить.
+          </p>
+          <div class="hero-actions" data-reveal="up" data-reveal-delay="300">
+            <Button href="/menu" variant="primary" size="lg">Посмотреть меню</Button>
+            <Button href="#reservation" variant="secondary" size="lg">Забронировать стол</Button>
+          </div>
+        </div>
+
+        <figure
+          class="hero-editorial-card"
+          data-reveal="scale"
+          data-reveal-delay="420"
+          data-parallax
+          data-parallax-speed="0.055"
+          data-parallax-rotate="2.4"
+        >
+          <img
+            src="/assets/photos/menu-wine.jpg"
+            alt="Бокалы красного вина за ресторанным столом"
+            loading="eager"
+          />
+        </figure>
       </div>
     </div>
 
@@ -53,6 +82,31 @@ import Button from '../ui/Button.astro';
     color: #fffaf1;
   }
 
+  .hero-tomato-decor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 2;
+    right: clamp(0.5rem, 3vw, 3rem);
+    bottom: clamp(9rem, 20vw, 20rem);
+    width: clamp(5rem, 8.5vw, 8.5rem);
+    height: auto;
+    object-fit: contain;
+    opacity: 0.62;
+    filter: saturate(1.15) contrast(1.06) drop-shadow(0 1.2rem 2.4rem rgba(0,0,0,0.44));
+    animation: hero-tomato-float 11s ease-in-out infinite;
+    transform: rotate(-14deg);
+  }
+
+  @keyframes hero-tomato-float {
+    0%, 100% { translate: 0 0; rotate: -14deg; }
+    50% { translate: 0.3rem -0.7rem; rotate: -11deg; }
+  }
+
+  :global([data-theme="dark"]) .hero-tomato-decor {
+    opacity: 0.36;
+    filter: saturate(0.9) brightness(0.82) contrast(1.04) drop-shadow(0 0 1rem rgba(246,239,228,0.06)) drop-shadow(0 1rem 2rem rgba(0,0,0,0.42));
+  }
+
   .hero-restaurant::after {
     content: '';
     position: absolute;
@@ -81,6 +135,15 @@ import Button from '../ui/Button.astro';
     inset: 0;
   }
 
+  .hero-media {
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .hero-shade {
+    z-index: 1;
+  }
+
   .hero-media img {
     width: 100%;
     height: 100%;
@@ -97,21 +160,23 @@ import Button from '../ui/Button.astro';
 
   .hero-inner {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
     padding-top: 7rem;
     padding-bottom: clamp(2rem, 7vw, 5rem);
   }
 
   .hero-copy {
-    max-width: 76rem;
+    position: relative;
+    z-index: 2;
+    max-width: min(100%, 82rem);
   }
 
   h1 {
     margin: 0;
     max-width: 100%;
-    padding-right: 0.05em;
-    font-size: clamp(4.2rem, 16.2vw, 14.6rem);
+    padding-right: clamp(0.08em, 1.2vw, 0.14em);
+    font-size: min(clamp(4.2rem, 15.5vw, 13.7rem), calc((100vw - clamp(3rem, 10vw, 10rem)) / 5.65));
     color: #fffaf1;
     text-transform: uppercase;
     line-height: 0.84;
@@ -119,12 +184,30 @@ import Button from '../ui/Button.astro';
     overflow: visible;
   }
 
+  h1[data-reveal="clip"] {
+    transition-duration: 1400ms;
+    transition-timing-function: var(--ease-out);
+  }
+
   .hero-subtitle {
     max-width: 43rem;
-    margin: 1.5rem 0 0;
+    margin: 0;
     color: rgba(255, 250, 241, 0.82);
     font-size: clamp(1.05rem, 2.2vw, 1.55rem);
     line-height: 1.55;
+  }
+
+  .hero-copy-lower {
+    display: grid;
+    grid-template-columns: minmax(0, 43rem) minmax(16rem, 26rem);
+    gap: clamp(1.5rem, 4vw, 4.5rem);
+    align-items: end;
+    width: min(100%, 82rem);
+    margin-top: clamp(1.25rem, 2.6vw, 2.2rem);
+  }
+
+  .hero-copy-body {
+    min-width: 0;
   }
 
   .hero-actions {
@@ -137,6 +220,58 @@ import Button from '../ui/Button.astro';
   .hero-actions :global(.btn-secondary) {
     color: #fffaf1;
     border-color: rgba(255, 250, 241, 0.42);
+  }
+
+  .hero-editorial-card {
+    --hero-card-base-rotate: 1.7deg;
+    --parallax-y: 0px;
+    --parallax-rotate: 0deg;
+    position: relative;
+    z-index: 1;
+    align-self: center;
+    width: min(100%, 26rem);
+    aspect-ratio: 0.78;
+    margin: 0 0 0.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 250, 241, 0.22);
+    border-radius: 42% 58% 44% 56% / 36% 42% 58% 64%;
+    background: rgba(255, 250, 241, 0.08);
+    box-shadow:
+      0 2rem 5rem rgba(0, 0, 0, 0.38),
+      0 0.7rem 1.8rem rgba(0, 0, 0, 0.24);
+    transform: translate3d(0, calc(1.8rem + var(--parallax-y)), 0) rotate(calc(var(--hero-card-base-rotate) + var(--parallax-rotate)));
+    transform-origin: 52% 54%;
+    transition:
+      opacity 1200ms var(--ease-out),
+      transform 1200ms var(--ease-out),
+      filter 1200ms var(--ease-out),
+      border-color 260ms ease;
+    will-change: transform;
+  }
+
+  .hero-editorial-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(6, 7, 8, 0.08), rgba(6, 7, 8, 0.28)),
+      radial-gradient(ellipse at 22% 12%, rgba(255, 250, 241, 0.18), transparent 44%);
+    mix-blend-mode: soft-light;
+  }
+
+  .hero-editorial-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 34% 50%;
+    transform: scale(1.04);
+  }
+
+  .hero-editorial-card[data-reveal].is-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, var(--parallax-y), 0) rotate(calc(var(--hero-card-base-rotate) + var(--parallax-rotate)));
   }
 
   .hero-notes {
@@ -267,9 +402,18 @@ import Button from '../ui/Button.astro';
     }
     h1 {
       padding-right: 0.08em;
-      font-size: clamp(3.75rem, 21.5vw, 7rem);
+      font-size: clamp(2.85rem, 12vw, 4.5rem);
       line-height: 0.88;
     }
+    .hero-copy-lower { grid-template-columns: 1fr; }
+    .hero-editorial-card {
+      width: min(70vw, 16rem);
+      justify-self: end;
+      margin-top: 1.4rem;
+      margin-right: 0.25rem;
+      opacity: 0.88;
+    }
+    .hero-tomato-decor { display: none; }
     .hero-actions { align-items: stretch; }
     .hero-actions :global(.btn) { width: 100%; }
     .hero-notes { grid-template-columns: 1fr; gap: 0.65rem; margin-top: 3rem; }
@@ -281,10 +425,15 @@ import Button from '../ui/Button.astro';
 
   @media (prefers-reduced-motion: reduce) {
     .hero-note,
-    .hero-note.is-active {
+    .hero-note.is-active,
+    .hero-editorial-card {
       animation: none;
       transition: none;
-      transform: none;
+    }
+
+    .hero-editorial-card,
+    .hero-editorial-card[data-reveal].is-visible {
+      transform: rotate(var(--hero-card-base-rotate));
     }
   }
 </style>

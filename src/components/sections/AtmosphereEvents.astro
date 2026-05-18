@@ -5,9 +5,11 @@ import Button from '../ui/Button.astro';
 <section id="events" class="events-section section-padding">
   <div class="container-site events-grid">
     <div class="event-image" data-reveal="left">
-      <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1400&q=86" alt="Бутылки вина и камерная атмосфера винного вечера" loading="lazy" />
+      <img src="/assets/photos/wine-evening.jpg" alt="Бутылки вина и камерная атмосфера винного вечера" loading="lazy" />
     </div>
     <div class="event-copy" data-reveal="right">
+      <img class="event-photo-decor event-decor-basil" src="/assets/decor/realistic/basil-leaves.png" alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.04" data-parallax-rotate="2" />
+      <img class="event-photo-decor event-decor-mushroom" src="/assets/decor/realistic/champignon-mushrooms.png" alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.025" data-parallax-rotate="-1.5" />
       <span class="eyebrow-line">События</span>
       <h2>Винные ужины и камерные встречи</h2>
       <p>
@@ -51,7 +53,41 @@ import Button from '../ui/Button.astro';
   }
 
   .event-copy {
+    position: relative;
     align-self: center;
+  }
+
+  .event-photo-decor {
+    position: absolute;
+    pointer-events: none;
+    height: auto;
+    object-fit: contain;
+    filter: saturate(0.74) brightness(0.78) contrast(1.05) drop-shadow(0 0 1rem rgba(246, 239, 228, 0.1)) drop-shadow(0 1.2rem 1.8rem rgba(0, 0, 0, 0.3));
+  }
+
+  .event-decor-basil {
+    right: clamp(0rem, 5vw, 4rem);
+    top: -3.5rem;
+    width: clamp(5rem, 7.5vw, 7rem);
+    opacity: 0.52;
+    filter: saturate(1.1) contrast(1.06) drop-shadow(0 1rem 1.8rem rgba(0,0,0,0.42));
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(calc(14deg + var(--parallax-rotate, 0deg)));
+  }
+
+  .event-decor-mushroom {
+    left: clamp(0rem, 3vw, 2rem);
+    bottom: -1.5rem;
+    width: clamp(5.5rem, 8vw, 7rem);
+    opacity: 0.44;
+    filter: saturate(0.82) brightness(0.76) contrast(1.06) drop-shadow(0 1rem 1.8rem rgba(0,0,0,0.4));
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(calc(-8deg + var(--parallax-rotate, 0deg)));
+    animation: mushroom-float 11s ease-in-out infinite;
+    animation-delay: -5s;
+  }
+
+  @keyframes mushroom-float {
+    0%, 100% { translate: 0 0; }
+    50% { translate: -0.3rem -0.6rem; }
   }
 
   .eyebrow-line { color: #f0a28e; }
@@ -109,5 +145,7 @@ import Button from '../ui/Button.astro';
       order: 2;
     }
     .event-copy { order: 1; }
+    .event-decor-basil,
+    .event-decor-mushroom { display: none; }
   }
 </style>

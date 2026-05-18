@@ -45,6 +45,7 @@ const socialLinks = [
     </div>
 
     <form class="reservation-form" data-reveal="right">
+      <img class="reservation-photo-decor" src="/assets/decor/realistic/fork.png" alt="" aria-hidden="true" loading="lazy" />
       <div class="form-grid">
         <TextField id="name" name="name" label="Имя" placeholder="Как к вам обращаться" autocomplete="name" required />
         <PhoneField id="phone" name="phone" label="Телефон" required />
@@ -140,6 +141,30 @@ const socialLinks = [
     background: color-mix(in srgb, var(--color-surface) 74%, transparent);
   }
 
+  .reservation-photo-decor {
+    position: absolute;
+    pointer-events: none;
+    right: clamp(0.8rem, 3vw, 2rem);
+    top: -3.2rem;
+    width: clamp(4.5rem, 7vw, 6.5rem);
+    height: auto;
+    object-fit: contain;
+    opacity: 0.44;
+    filter: saturate(0.76) contrast(0.96) brightness(0.86) drop-shadow(0 1.2rem 2rem rgba(25, 23, 21, 0.22));
+    transform: rotate(13deg);
+    animation: fork-float 10s ease-in-out infinite;
+  }
+
+  @keyframes fork-float {
+    0%, 100% { translate: 0 0; rotate: 13deg; }
+    50% { translate: 0.2rem -0.6rem; rotate: 11deg; }
+  }
+
+  :global([data-theme="dark"]) .reservation-photo-decor {
+    opacity: 0.38;
+    filter: saturate(0.76) brightness(0.8) contrast(1.04) drop-shadow(0 0 1rem rgba(246, 239, 228, 0.08)) drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.26));
+  }
+
   .form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -160,5 +185,6 @@ const socialLinks = [
     .form-grid { grid-template-columns: 1fr; }
     .form-grid > :last-child { grid-column: auto; }
     h2 { max-width: 12ch; }
+    .reservation-photo-decor { display: none; }
   }
 </style>

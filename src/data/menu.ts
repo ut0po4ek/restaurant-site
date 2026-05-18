@@ -30,7 +30,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'starters',
     title: 'Закуски',
     subtitle: 'Свежие травы, оливковое масло и начало вечера без спешки.',
-    image: 'https://images.unsplash.com/photo-1541014741259-de529411b96a?auto=format&fit=crop&w=1200&q=85',
+    image: '/assets/photos/menu-starters.jpg',
     imageAlt: 'Итальянская закуска на темной тарелке',
     items: [
       { name: 'Брускетта с томатами и базиликом', description: 'Сладкие томаты, чеснок, хрустящий хлеб и масло первого отжима.', price: '590 ₽', details: { weight: '180 г', calories: '360 ккал', protein: '9 г', fat: '16 г', carbs: '42 г', allergens: 'глютен', composition: 'чиабатта, томаты, базилик, чеснок, оливковое масло', winePairing: 'Pinot Grigio Alto Adige', cookTime: '10 минут', tags: ['vegetarian'] } },
@@ -43,7 +43,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'pasta',
     title: 'Паста',
     subtitle: 'Домашнее тесто, плотные соусы и классические римские сочетания.',
-    image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1200&q=85',
+    image: '/assets/photos/menu-pasta.jpg',
     imageAlt: 'Паста с томатным соусом и пармезаном',
     items: [
       { name: 'Паста качо-э-пепе', description: 'Пекорино, черный перец и шелковистая эмульсия на горячей пасте.', price: '850 ₽', details: { weight: '270 г', calories: '620 ккал', protein: '23 г', fat: '25 г', carbs: '74 г', allergens: 'глютен, молочные продукты', composition: 'домашняя паста, пекорино, черный перец, сливочное масло', winePairing: 'Frascati Superiore', cookTime: '16 минут', tags: ['vegetarian'] } },
@@ -56,7 +56,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'mains',
     title: 'Основные блюда',
     subtitle: 'Открытый огонь, травы и спокойная уверенность простых продуктов.',
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=85',
+    image: '/assets/photos/menu-mains.jpg',
     imageAlt: 'Стейк с овощами на темной поверхности',
     items: [
       { name: 'Стейк с розмарином', description: 'Говядина на гриле, печеный чеснок, томаты и соус из красного вина.', price: '1690 ₽', details: { weight: '340 г', calories: '780 ккал', protein: '52 г', fat: '51 г', carbs: '22 г', allergens: 'молочные продукты', composition: 'говядина, розмарин, печеный чеснок, томаты, винный соус', winePairing: 'Barolo', cookTime: '24 минуты', tags: ['grill'] } },
@@ -69,7 +69,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'desserts',
     title: 'Десерты',
     subtitle: 'Финал, который остается мягким, сливочным и немного праздничным.',
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=1200&q=85',
+    image: '/assets/photos/menu-desserts.jpg',
     imageAlt: 'Итальянский десерт на светлой тарелке',
     items: [
       { name: 'Тирамису', description: 'Маскарпоне, савоярди, эспрессо и горькое какао.', price: '590 ₽', details: { weight: '160 г', calories: '480 ккал', protein: '9 г', fat: '31 г', carbs: '42 г', allergens: 'глютен, яйца, молочные продукты', composition: 'маскарпоне, савоярди, эспрессо, какао, марсала', winePairing: 'Vin Santo', cookTime: '5 минут', tags: ['classic'] } },
@@ -82,7 +82,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'wine',
     title: 'Вино',
     subtitle: 'Италия по бокалам: от минеральных белых до плотных тосканских красных.',
-    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1200&q=85',
+    image: '/assets/photos/menu-wine.jpg',
     imageAlt: 'Бутылки вина в темном винном зале',
     items: [
       { name: 'Prosecco Valdobbiadene', description: 'Сухое, свежее, с яблоком и белыми цветами.', price: '690 ₽ / бокал', details: { weight: '150 мл', calories: '120 ккал', protein: '0 г', fat: '0 г', carbs: '4 г', allergens: 'сульфиты', composition: 'глера, регион Венето, сухой стиль', winePairing: 'брускетта, буррата, сорбет', cookTime: 'подача 3 минуты', tags: ['sparkling'] } },
@@ -98,21 +98,21 @@ export const signatureDishes = [
     name: 'Тальятелле с рагу',
     note: 'Медленно томим мясо в красном вине и подаем с домашней пастой.',
     price: '990 ₽',
-    image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85',
+    image: '/assets/photos/signature-tagliatelle.jpg',
     alt: 'Тарелка тальятелле с томатным соусом',
   },
   {
     name: 'Сибас с травами',
     note: 'Запекаем целиком, добавляем лимон, тимьян и мягкое оливковое масло.',
     price: '1490 ₽',
-    image: 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85',
+    image: '/assets/photos/signature-fish.jpg',
     alt: 'Рыбное блюдо с зеленью на темной тарелке',
   },
   {
     name: 'Панна-котта',
     note: 'Сливочная ваниль, сезонные ягоды и чистый, спокойный финал.',
     price: '540 ₽',
-    image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=1000&q=85',
+    image: '/assets/photos/signature-panna-cotta.jpg',
     alt: 'Панна-котта с ягодами',
   },
 ];

@@ -7,16 +7,18 @@ import ScrollTextReveal from './ScrollTextReveal.astro';
   <div class="container-site salt-inner">
     <div class="salt-copy">
       <span class="eyebrow-line" data-reveal="up">Темный зал</span>
-      <h2 data-reveal="up" data-reveal-delay="150">Соль, огонь и глубокий вечерний фон</h2>
-      <ScrollTextReveal
-        class="salt-text"
-        text="Меню построено вокруг свежих ингредиентов, открытого огня и классических итальянских сочетаний. На темном фоне вкус становится точнее: хруст хлеба, дым гриля, плотность соуса и тихий блеск бокала."
-      />
+      <div class="salt-heading-stack">
+        <h2 data-reveal="up" data-reveal-delay="150">Соль, огонь и глубокий вечерний фон</h2>
+        <ScrollTextReveal
+          class="salt-text"
+          text="Меню построено вокруг свежих ингредиентов, открытого огня и классических итальянских сочетаний. На темном фоне вкус становится точнее: хруст хлеба, дым гриля, плотность соуса и тихий блеск бокала."
+        />
+      </div>
     </div>
     <div class="salt-plates" aria-label="Блюда на темном фоне">
-      <img class="plate plate-one" data-scroll-rotate="14" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=85" alt="Салат на круглой тарелке" loading="lazy" />
-      <img class="plate plate-two" data-scroll-rotate="16" data-scroll-direction="reverse" src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=85" alt="Стейк с овощами на тарелке" loading="lazy" />
-      <img class="plate plate-three" data-scroll-rotate="12" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=760&q=85" alt="Десерт с ягодами на тарелке" loading="lazy" />
+      <img class="plate plate-one" data-scroll-rotate="14" src="/assets/photos/salt-salad.jpg" alt="Салат на круглой тарелке" loading="lazy" />
+      <img class="plate plate-two" data-scroll-rotate="16" data-scroll-direction="reverse" src="/assets/photos/salt-steak.jpg" alt="Стейк с овощами на тарелке" loading="lazy" />
+      <img class="plate plate-three" data-scroll-rotate="12" src="/assets/photos/salt-dessert.jpg" alt="Десерт с ягодами на тарелке" loading="lazy" />
     </div>
   </div>
 </section>
@@ -24,26 +26,42 @@ import ScrollTextReveal from './ScrollTextReveal.astro';
 <style>
   .salt-story {
     --salt-progress: 0;
+    --salt-bg-a: rgba(247, 241, 231, 0.94);
+    --salt-bg-b: rgba(235, 224, 211, 0.98);
+    --salt-text: var(--color-fg);
+    --salt-text-muted: var(--color-fg-muted);
+    --salt-accent: var(--color-accent-dark);
+    --salt-grain-a: rgba(25, 23, 21, 0.12);
+    --salt-grain-b: rgba(184, 74, 58, 0.08);
     position: relative;
     overflow: hidden;
     min-height: 46rem;
     background:
-      linear-gradient(180deg, rgba(6, 7, 8, 0.94), rgba(6, 7, 8, 0.98)),
-      #060708;
-    color: #f6efe4;
+      linear-gradient(180deg, var(--salt-bg-a), var(--salt-bg-b)),
+      var(--color-bg);
+    color: var(--salt-text);
+  }
+
+  :global([data-theme="dark"]) .salt-story {
+    --salt-bg-a: rgba(6, 7, 8, 0.94);
+    --salt-bg-b: rgba(6, 7, 8, 0.98);
+    --salt-text: #f6efe4;
+    --salt-text-muted: rgba(246, 239, 228, 0.70);
+    --salt-accent: #f0a28e;
+    --salt-grain-a: rgba(246, 239, 228, 0.16);
+    --salt-grain-b: rgba(240, 162, 142, 0.08);
   }
 
   .salt-grain {
     position: absolute;
     inset: 0;
-    opacity: calc(0.12 + var(--salt-progress) * 0.58);
+    opacity: calc(0.08 + var(--salt-progress) * 0.24);
     clip-path: inset(calc((1 - var(--salt-progress)) * 18%) 0 0 0);
-    background-image:
-      radial-gradient(circle, rgba(246, 239, 228, 0.95) 0 1px, transparent 1.7px),
-      radial-gradient(circle, rgba(246, 239, 228, 0.55) 0 1px, transparent 1.5px);
-    background-size: 3.8rem 3.8rem, 6rem 6rem;
-    background-position: 72% 18%, 62% 44%;
-    mask-image: radial-gradient(ellipse at 72% 38%, black 0 38%, transparent 70%);
+    background:
+      radial-gradient(ellipse at 74% 32%, var(--salt-grain-a), transparent 54%),
+      radial-gradient(ellipse at 24% 72%, var(--salt-grain-b), transparent 46%),
+      linear-gradient(126deg, transparent 8%, color-mix(in srgb, var(--salt-text) 6%, transparent) 34%, transparent 62%);
+    mask-image: radial-gradient(ellipse at 70% 40%, black 0 34%, transparent 72%);
     pointer-events: none;
   }
 
@@ -56,18 +74,25 @@ import ScrollTextReveal from './ScrollTextReveal.astro';
     align-items: center;
   }
 
-  .eyebrow-line { color: #f0a28e; }
-  h2 {
-    margin: 1rem 0 0;
+  .eyebrow-line { color: var(--salt-accent); }
+
+  .salt-heading-stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3.2rem, 6vw, 6rem);
     max-width: 46rem;
-    color: #f6efe4;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--salt-text);
     font-size: clamp(3rem, 7vw, 6.5rem);
   }
 
   .salt-text {
     max-width: 42rem;
-    margin-top: 2rem;
-    color: #f6efe4;
+    margin: 0;
+    color: var(--salt-text);
     font-size: clamp(1.2rem, 2vw, 1.6rem);
     line-height: 1.58;
   }

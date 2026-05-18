@@ -1,0 +1,595 @@
+---
+const ITEMS_PER_GROUP = 4;
+
+const layers = [
+  /* ── Group 0 ── */
+  {
+    id: 'rosemary',
+    label: 'Розмарин и тимьян',
+    src: '/assets/decor/realistic/rosemary.png',
+    fromRotate: '52deg',  fromScale: '0.38', toRotate: '-10deg',
+    exitRotate: '-38deg', exitScale:  '0.30',
+    width: 'clamp(7rem, 10.5vw, 15.5rem)',
+  },
+  {
+    id: 'tomatoes',
+    label: 'Сладкие томаты',
+    src: '/assets/decor/realistic/tomatoes-vine.png',
+    fromRotate: '-44deg', fromScale: '0.34', toRotate: '9deg',
+    exitRotate: '32deg',  exitScale:  '0.28',
+    width: 'clamp(9rem, 13.5vw, 20rem)',
+  },
+  {
+    id: 'avocado',
+    label: 'Спелый авокадо',
+    src: '/assets/decor/realistic/avocado-half.png',
+    fromRotate: '-48deg', fromScale: '0.36', toRotate: '14deg',
+    exitRotate: '40deg',  exitScale:  '0.32',
+    width: 'clamp(7rem, 10.5vw, 15.5rem)',
+  },
+  {
+    id: 'lettuce',
+    label: 'Листья салата',
+    src: '/assets/decor/realistic/lettuce-leaves.png',
+    fromRotate: '42deg',  fromScale: '0.34', toRotate: '-12deg',
+    exitRotate: '-30deg', exitScale:  '0.30',
+    width: 'clamp(9rem, 13.5vw, 20rem)',
+  },
+  /* ── Group 1 ── */
+  {
+    id: 'basil',
+    label: 'Свежий базилик',
+    src: '/assets/decor/realistic/basil-leaves.png',
+    fromRotate: '-50deg', fromScale: '0.36', toRotate: '18deg',
+    exitRotate: '36deg',  exitScale:  '0.32',
+    width: 'clamp(8rem, 12vw, 18rem)',
+  },
+  {
+    id: 'cheese',
+    label: 'Выдержанный сыр',
+    src: '/assets/decor/realistic/gorgonzola-cheese.png',
+    fromRotate: '46deg',  fromScale: '0.34', toRotate: '-16deg',
+    exitRotate: '-34deg', exitScale:  '0.28',
+    width: 'clamp(8.5rem, 12.5vw, 19rem)',
+  },
+  {
+    id: 'mushrooms',
+    label: 'Шампиньоны',
+    src: '/assets/decor/realistic/champignon-mushrooms.png',
+    fromRotate: '-54deg', fromScale: '0.32', toRotate: '12deg',
+    exitRotate: '44deg',  exitScale:  '0.30',
+    width: 'clamp(9rem, 13.5vw, 20rem)',
+  },
+  {
+    id: 'eggplant',
+    label: 'Молодой баклажан',
+    src: '/assets/decor/realistic/eggplant.png',
+    fromRotate: '50deg',  fromScale: '0.36', toRotate: '-8deg',
+    exitRotate: '-38deg', exitScale:  '0.32',
+    width: 'clamp(7.5rem, 11vw, 16.5rem)',
+  },
+  /* ── Group 2 ── */
+  {
+    id: 'chicken',
+    label: 'Куриное филе',
+    src: '/assets/decor/realistic/chicken-breast.png',
+    fromRotate: '-46deg', fromScale: '0.34', toRotate: '10deg',
+    exitRotate: '34deg',  exitScale:  '0.28',
+    width: 'clamp(9.5rem, 14.5vw, 21rem)',
+  },
+  {
+    id: 'potato',
+    label: 'Молодой картофель',
+    src: '/assets/decor/realistic/potato-peeled.png',
+    fromRotate: '56deg',  fromScale: '0.32', toRotate: '-18deg',
+    exitRotate: '-42deg', exitScale:  '0.30',
+    width: 'clamp(7rem, 10.5vw, 15.5rem)',
+  },
+  {
+    id: 'spice-mounds',
+    label: 'Пряные специи',
+    src: '/assets/decor/realistic/spice-mounds.png',
+    fromRotate: '-42deg', fromScale: '0.36', toRotate: '8deg',
+    exitRotate: '36deg',  exitScale:  '0.32',
+    width: 'clamp(9rem, 13.5vw, 20rem)',
+  },
+  {
+    id: 'peas',
+    label: 'Зелёный горошек',
+    src: '/assets/decor/realistic/green-peas.png',
+    fromRotate: '48deg',  fromScale: '0.34', toRotate: '-14deg',
+    exitRotate: '-36deg', exitScale:  '0.28',
+    width: 'clamp(8.5rem, 12.5vw, 19rem)',
+  },
+  /* ── Group 3 ── */
+  {
+    id: 'pepper',
+    label: 'Острый перец',
+    src: '/assets/decor/realistic/red-pepper-slices.png',
+    fromRotate: '58deg',  fromScale: '0.30', toRotate: '-22deg',
+    exitRotate: '-44deg', exitScale:  '0.30',
+    width: 'clamp(5.5rem, 8.5vw, 12rem)',
+  },
+  {
+    id: 'spice',
+    label: 'Соль и специи',
+    src: '/assets/decor/realistic/spice-spoons.png',
+    fromRotate: '-52deg', fromScale: '0.32', toRotate: '22deg',
+    exitRotate: '40deg',  exitScale:  '0.32',
+    width: 'clamp(7rem, 10.5vw, 15rem)',
+  },
+];
+
+const totalGroups = Math.ceil(layers.length / ITEMS_PER_GROUP);
+
+/* Label side depends on position within group:
+   pos 0,2 → left column → label extends right
+   pos 1,3 → right column → label extends left          */
+function labelSide(i: number) {
+  return i % 2 === 0 ? 'right' : 'left';
+}
+---
+
+<div class="kitchen-scroll-wrapper" data-kitchen-wrapper>
+  <section id="kitchen" class="kitchen-sticky">
+    <div class="kitchen-bg" aria-hidden="true"></div>
+
+    <div class="container-site kitchen-inner">
+      <div class="kitchen-copy" data-reveal="left">
+        <span class="eyebrow-line">Кухня</span>
+        <h2>Из чего складывается вкус</h2>
+        <p>
+          Паста, травы, томаты, сыр и открытый огонь собираются в блюдо постепенно — так же, как вечер в PICCOLINO.
+        </p>
+
+        <div class="kitchen-nav" aria-hidden="true">
+          {Array.from({ length: totalGroups }).map((_, i) => (
+            <span class="kitchen-dot" data-kitchen-dot={i}></span>
+          ))}
+          <span class="kitchen-counter">
+            <span data-kitchen-current>1</span>&thinsp;/&thinsp;{totalGroups}
+          </span>
+        </div>
+      </div>
+
+      <div class="kitchen-stage" data-kitchen-stage>
+        <div class="kitchen-glow" aria-hidden="true"></div>
+
+        {layers.map((layer, i) => (
+          <div
+            class={`kitchen-layer layer-${layer.id} pos-${i % ITEMS_PER_GROUP}`}
+            style={[
+              `--from-rotate: ${layer.fromRotate}`,
+              `--from-scale: ${layer.fromScale}`,
+              `--to-rotate: ${layer.toRotate}`,
+              `--exit-rotate: ${layer.exitRotate}`,
+              `--exit-scale: ${layer.exitScale}`,
+              `--layer-width: ${layer.width}`,
+            ].join('; ')}
+            data-kitchen-layer={i}
+            data-kitchen-group={Math.floor(i / ITEMS_PER_GROUP)}
+            data-kitchen-last-group={Math.floor(i / ITEMS_PER_GROUP) === totalGroups - 1 ? 'true' : 'false'}
+          >
+            <img src={layer.src} alt="" aria-hidden="true" loading="lazy" />
+            <span class={`layer-label label-${labelSide(i % ITEMS_PER_GROUP)}`}>{layer.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="kitchen-hint" data-kitchen-hint aria-hidden="true">
+      <span>прокрутите</span>
+      <svg width="12" height="18" viewBox="0 0 12 18" fill="none" aria-hidden="true">
+        <path d="M6 2v14M1 11l5 5 5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+</div>
+
+<style>
+  /* ── Scroll wrapper ── */
+  .kitchen-scroll-wrapper {
+    position: relative;
+    height: calc(100svh + 2800px);
+  }
+
+  /* ── Sticky panel ── */
+  .kitchen-sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--color-bg-dark);
+    color: #f6efe4;
+  }
+
+  .kitchen-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 65% 46%, rgba(184, 74, 58, 0.13), transparent 50%),
+      radial-gradient(ellipse at 18% 70%, rgba(29, 92, 92, 0.09), transparent 44%);
+  }
+
+  /* ── Two-column grid ── */
+  .kitchen-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+    height: 100%;
+    padding-block: clamp(4rem, 8svh, 6rem);
+  }
+
+  /* ── Copy ── */
+  .kitchen-copy .eyebrow-line {
+    color: #f0a28e;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .kitchen-copy h2 {
+    margin: 0 0 1.2rem;
+    color: #f6efe4;
+    font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+    line-height: 1.02;
+  }
+
+  .kitchen-copy p {
+    max-width: 36rem;
+    color: rgba(246, 239, 228, 0.70);
+    margin: 20px 0 0;
+    font-size: clamp(1rem, 1.7vw, 1.18rem);
+    line-height: 1.65;
+  }
+
+  /* ── Group nav: dots + counter ── */
+  .kitchen-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 2rem;
+  }
+
+  .kitchen-dot {
+    width: 0.36rem;
+    height: 0.36rem;
+    border-radius: 50%;
+    background: rgba(246, 239, 228, 0.20);
+    transition: background 300ms ease, transform 300ms ease;
+    flex-shrink: 0;
+  }
+
+  .kitchen-dot.is-active {
+    background: #f0a28e;
+    transform: scale(1.6);
+  }
+
+  .kitchen-dot.is-done {
+    background: rgba(240, 162, 142, 0.40);
+  }
+
+  .kitchen-counter {
+    margin-left: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: rgba(246, 239, 228, 0.38);
+  }
+
+  /* ── Stage: right column ── */
+  .kitchen-stage {
+    position: relative;
+    height: clamp(30rem, 80svh, 56rem);
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+
+  .kitchen-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    translate: -50% -50%;
+    width: clamp(18rem, 30vw, 30rem);
+    height: clamp(18rem, 30vw, 30rem);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184, 74, 58, 0.10), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 1200ms ease;
+  }
+
+  .kitchen-stage.glow-on .kitchen-glow {
+    opacity: 1;
+  }
+
+  /* ── Layer base state: scattered (enter-from) ── */
+  .kitchen-layer {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    transform: rotate(var(--from-rotate)) scale(var(--from-scale));
+    opacity: 0;
+    filter: blur(14px);
+    transition:
+      transform 2200ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity   1700ms ease,
+      filter    1600ms ease;
+    will-change: transform, opacity, filter;
+  }
+
+  /* Assembled / visible */
+  .kitchen-layer.is-visible {
+    transform: rotate(var(--to-rotate)) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  /* Exiting: scatter to a different direction */
+  .kitchen-layer.is-exiting {
+    transform: rotate(var(--exit-rotate)) scale(var(--exit-scale));
+    opacity: 0;
+    filter: blur(12px);
+  }
+
+  .kitchen-layer img {
+    width: var(--layer-width);
+    height: auto;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 1.4rem 3rem rgba(0,0,0,0.62));
+  }
+
+  /* ── 2×2 grid positions ── */
+  .pos-0 { top:  8%; left:  6%; }
+  .pos-1 { top:  8%; right: 6%; }
+  .pos-2 { top: 56%; left:  6%; }
+  .pos-3 { top: 56%; right: 6%; }
+
+  /* Last group (2 items): center them vertically */
+  .layer-pepper { top: 32%; left:  14%; }
+  .layer-spice  { top: 32%; right: 14%; }
+
+  /* ── Labels ── */
+  .layer-label {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(0.86rem, 1.25vw, 1.08rem);
+    font-weight: 500;
+    font-style: italic;
+    color: rgba(246, 239, 228, 0.52);
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    transition: opacity 900ms ease 650ms;
+  }
+
+  .kitchen-layer[data-kitchen-last-group="true"] .layer-label {
+    font-size: clamp(0.76rem, 1.1vw, 0.92rem);
+  }
+
+  .kitchen-layer.is-visible .layer-label {
+    opacity: 1;
+  }
+
+  .label-right {
+    align-self: flex-start;
+    padding-left: 0.75rem;
+    position: relative;
+  }
+  .label-right::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%;
+    width: 0.5rem; height: 1px;
+    background: rgba(240, 162, 142, 0.42);
+  }
+
+  .label-left {
+    align-self: flex-end;
+    padding-right: 0.75rem;
+    position: relative;
+  }
+  .label-left::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 50%;
+    width: 0.5rem; height: 1px;
+    background: rgba(240, 162, 142, 0.42);
+  }
+
+  /* ── Scroll hint ── */
+  .kitchen-hint {
+    position: absolute;
+    bottom: 1.6rem;
+    left: 50%;
+    translate: -50% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(246, 239, 228, 0.36);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    pointer-events: none;
+    transition: opacity 500ms ease;
+  }
+
+  /* ── Reduced motion: skip scroll-lock, show all at once ── */
+  @media (prefers-reduced-motion: reduce) {
+    .kitchen-scroll-wrapper { height: auto; }
+    .kitchen-sticky {
+      position: relative;
+      height: auto;
+      padding-block: clamp(4.5rem, 10vw, 9rem);
+    }
+    .kitchen-layer {
+      transform: rotate(var(--to-rotate)) scale(1) !important;
+      opacity: 1 !important;
+      filter: none !important;
+      transition: none !important;
+    }
+    .layer-label { opacity: 1 !important; transition: none !important; }
+    .kitchen-hint { display: none; }
+
+    /* Show all items in a packed grid for reduced-motion */
+    .kitchen-stage {
+      height: auto;
+      min-height: 24rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, auto);
+      gap: 1rem;
+      overflow: visible;
+    }
+    .kitchen-layer {
+      position: static !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .pos-0, .pos-1, .pos-2, .pos-3,
+    .layer-pepper, .layer-spice { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+  }
+
+  /* ── Mobile ≤860px: single column ── */
+  @media (max-width: 860px) {
+    .kitchen-scroll-wrapper { height: calc(100svh + 1900px); }
+    .kitchen-inner {
+      grid-template-columns: 1fr;
+      align-content: start;
+      gap: 1.2rem;
+      padding-block: 3rem 1rem;
+    }
+    .kitchen-stage { height: clamp(22rem, 72vw, 38rem); }
+    .layer-label { display: none; }
+
+    /* Tighten 2×2 positions for shorter stage */
+    .pos-0 { top:  6%; left:  5%; }
+    .pos-1 { top:  6%; right: 5%; }
+    .pos-2 { top: 54%; left:  5%; }
+    .pos-3 { top: 54%; right: 5%; }
+    .layer-pepper { top: 30%; left:  12%; }
+    .layer-spice  { top: 30%; right: 12%; }
+  }
+
+  /* ── Small mobile ≤540px ── */
+  @media (max-width: 540px) {
+    .kitchen-scroll-wrapper { height: calc(100svh + 1400px); }
+    .kitchen-stage { height: clamp(24rem, 112vw, 34rem); }
+    .pos-0,
+    .pos-2 { left: 4%; }
+    .pos-1,
+    .pos-3 { right: 8%; }
+    .layer-pepper { top: 30%; left:  12%; }
+    .layer-spice  { top: 30%; right: 12%; }
+  }
+</style>
+
+<script>
+  function initKitchen() {
+    const wrapper = document.querySelector<HTMLElement>('[data-kitchen-wrapper]');
+    if (!wrapper || wrapper.dataset.kitchenReady === 'true') return;
+    wrapper.dataset.kitchenReady = 'true';
+
+    const stage      = wrapper.querySelector<HTMLElement>('[data-kitchen-stage]');
+    const layers     = Array.from(wrapper.querySelectorAll<HTMLElement>('[data-kitchen-layer]'));
+    const dots       = Array.from(wrapper.querySelectorAll<HTMLElement>('[data-kitchen-dot]'));
+    const counterEl  = wrapper.querySelector<HTMLElement>('[data-kitchen-current]');
+    const hint       = wrapper.querySelector<HTMLElement>('[data-kitchen-hint]');
+    const reduced    = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduced) {
+      layers.forEach(l => l.classList.add('is-visible'));
+      stage?.classList.add('glow-on');
+      return;
+    }
+
+    const n              = layers.length;
+    const ITEMS_PER_GROUP = 4;
+    const TOTAL_GROUPS   = Math.ceil(n / ITEMS_PER_GROUP);
+    const ENTER_SPAN     = 0.24;   // first 24% of each group's scroll: staggered entry
+    const EXIT_START     = 0.82;   // at 82% of each group's scroll: all items exit
+    const wrapperEl: HTMLElement = wrapper;
+
+    function update() {
+      const rect       = wrapperEl.getBoundingClientRect();
+      const scrollable = Math.max(1, wrapperEl.offsetHeight - window.innerHeight);
+      const scrolled   = Math.max(0, -rect.top);
+      const progress   = Math.min(1, scrolled / scrollable);
+
+      // Which group is currently active
+      const rawGroup      = progress * TOTAL_GROUPS;
+      const currentGroup  = Math.min(Math.floor(rawGroup), TOTAL_GROUPS - 1);
+      const groupProgress = rawGroup - currentGroup; // 0–1 within active group
+
+      layers.forEach((layer, i) => {
+        const myGroup      = Math.floor(i / ITEMS_PER_GROUP);
+        const posInGroup   = i % ITEMS_PER_GROUP;
+        const isLastGroup  = myGroup === TOTAL_GROUPS - 1;
+
+        // Staggered entry threshold within a group
+        const enterAt = (posInGroup / ITEMS_PER_GROUP) * ENTER_SPAN;
+
+        let visible  = false;
+        let exiting  = false;
+
+        if (myGroup === currentGroup) {
+          if (groupProgress >= enterAt) {
+            visible = true;
+            // Exit if not last group and group progress passed EXIT_START
+            if (!isLastGroup && groupProgress >= EXIT_START) {
+              visible  = false;
+              exiting  = true;
+            }
+          }
+        } else if (myGroup < currentGroup) {
+          // Past groups: permanently exited
+          exiting = true;
+        }
+        // Future groups: neither visible nor exiting (default scattered state)
+
+        layer.classList.toggle('is-visible', visible);
+        layer.classList.toggle('is-exiting', exiting);
+      });
+
+      // Update dots
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === currentGroup);
+        dot.classList.toggle('is-done',   i < currentGroup);
+      });
+
+      // Update counter
+      if (counterEl) counterEl.textContent = String(currentGroup + 1);
+
+      // Glow when any item is visible
+      const anyVisible = layers.some(l => l.classList.contains('is-visible'));
+      stage?.classList.toggle('glow-on', anyVisible);
+
+      // Hint fades as soon as scroll starts
+      if (hint) hint.style.opacity = progress < 0.015 ? '1' : '0';
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initKitchen, { once: true });
+  } else {
+    initKitchen();
+  }
+  document.addEventListener('astro:page-load', initKitchen);
+</script>

@@ -237,8 +237,23 @@ const {
 
       function updateRestaurantScrollMotion() {
         restaurantMotionFrame = 0;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const viewport = window.innerHeight || document.documentElement.clientHeight;
+        const isMobile = window.innerWidth < 700;
+
+        if (reduced) {
+          document.querySelectorAll<HTMLElement>('[data-parallax]').forEach((el) => {
+            el.style.setProperty('--parallax-y', '0px');
+            el.style.setProperty('--parallax-rotate', '0deg');
+          });
+          document.querySelectorAll<SVGPathElement>('.menu-scroll-line-progress').forEach((path) => {
+            const length = Number(path.dataset.pathLength || path.getTotalLength());
+            path.dataset.pathLength = String(length);
+            path.style.strokeDasharray = `${length}`;
+            path.style.strokeDashoffset = '0';
+          });
+          return;
+        }
 
         document.querySelectorAll<HTMLElement>('[data-scroll-rotate]').forEach((el) => {
           const rect = el.getBoundingClientRect();
@@ -251,21 +266,70 @@ const {
           el.style.setProperty('--scroll-lift', `${lift.toFixed(2)}px`);
         });
 
+        document.querySelectorAll<HTMLElement>('[data-scroll-dish]').forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          const elementCenter = rect.top + rect.height / 2;
+          const viewportCenter = viewport / 2;
+          const signedProgress = clampMotion((elementCenter - viewportCenter) / (viewport * 0.58), -1, 1);
+          const intensity = Math.abs(signedProgress);
+          const direction = el.dataset.motionDirection === 'reverse' ? -1 : 1;
+          const yRange = Number.parseFloat(el.dataset.motionY || (isMobile ? '10' : '18'));
+          const rotateRange = Number.parseFloat(el.dataset.motionRotate || (isMobile ? '4.5' : '8'));
+          const translateY = signedProgress * yRange;
+          const rotate = signedProgress * -rotateRange * direction;
+          const scale = 1 - intensity * (isMobile ? 0.025 : 0.04);
+          el.style.setProperty('--dish-motion-y', `${translateY.toFixed(2)}px`);
+          el.style.setProperty('--dish-motion-rotate', `${rotate.toFixed(2)}deg`);
+          el.style.setProperty('--dish-motion-scale', scale.toFixed(3));
+        });
+
         document.querySelectorAll<HTMLElement>('[data-salt-progress]').forEach((el) => {
           const rect = el.getBoundingClientRect();
           const progress = clampMotion((viewport - rect.top) / (viewport + rect.height * 0.75));
           el.style.setProperty('--salt-progress', progress.toFixed(3));
         });
 
+        document.querySelectorAll<HTMLElement>('[data-parallax]').forEach((el) => {
+          if (el.hasAttribute('data-scroll-dish') || el.hasAttribute('data-scroll-rotate')) return;
+          const rect = el.getBoundingClientRect();
+          if (rect.bottom < -viewport * 0.25 || rect.top > viewport * 1.25) return;
+          const elementCenter = rect.top + rect.height / 2;
+          const signedProgress = clampMotion((viewport / 2 - elementCenter) / (viewport * 0.85), -1, 1);
+          const speed = Number.parseFloat(el.dataset.parallaxSpeed || '0.04');
+          const rotateRange = Number.parseFloat(el.dataset.parallaxRotate || '0');
+          const range = Math.min(42, viewport * Math.abs(speed)) * (isMobile ? 0.35 : 1);
+          const translateY = signedProgress * range * Math.sign(speed || 1);
+          const rotate = signedProgress * rotateRange * (isMobile ? 0.42 : 1);
+          el.style.setProperty('--parallax-y', `${translateY.toFixed(2)}px`);
+          el.style.setProperty('--parallax-rotate', `${rotate.toFixed(2)}deg`);
+        });
+
+        document.querySelectorAll<HTMLElement>('[data-menu-scroll-region]').forEach((region) => {
+          const path = region.querySelector<SVGPathElement>('.menu-scroll-line-progress');
+          if (!path) return;
+          const length = Number(path.dataset.pathLength || path.getTotalLength());
+          path.dataset.pathLength = String(length);
+          path.style.strokeDasharray = `${length}`;
+          const rect = region.getBoundingClientRect();
+          // Progress starts when region top enters viewport, ends when region bottom is ~half viewport above bottom
+          const scrollableHeight = rect.height - viewport * 0.5;
+          const scrolled = viewport * 0.65 - rect.top;
+          const progress = clampMotion(scrolled / Math.max(scrollableHeight, viewport * 0.5));
+          path.style.strokeDashoffset = `${(length * (1 - progress)).toFixed(2)}`;
+        });
+
         document.querySelectorAll<HTMLElement>('[data-scroll-text]').forEach((root) => {
           const rect = root.getBoundingClientRect();
           const progress = clampMotion((viewport * 0.98 - rect.top) / Math.max(rect.height, viewport * 0.36));
           const words = Array.from(root.querySelectorAll<HTMLElement>('[data-word]'));
+          const rootStyles = getComputedStyle(root);
+          const restOpacity = Number.parseFloat(rootStyles.getPropertyValue('--scroll-word-rest-opacity')) || 0.42;
+          const restBlur = Number.parseFloat(rootStyles.getPropertyValue('--scroll-word-blur')) || 3.4;
           words.forEach((word, index) => {
             const local = clampMotion((progress * (words.length + 5) - index) / 2.25);
-            word.style.opacity = String(0.1 + local * 0.9);
-            word.style.filter = `blur(${((1 - local) * 4.5).toFixed(2)}px)`;
-            word.style.color = `color-mix(in srgb, currentColor ${Math.round(35 + local * 65)}%, transparent)`;
+            word.style.opacity = String(restOpacity + local * (1 - restOpacity));
+            word.style.filter = `blur(${((1 - local) * restBlur).toFixed(2)}px)`;
+            word.style.color = `color-mix(in srgb, var(--scroll-word-rest) ${Math.round((1 - local) * 100)}%, var(--scroll-word-active))`;
           });
         });
       }
@@ -281,6 +345,14 @@ const {
         document.documentElement.dataset.restaurantMotionBound = 'true';
         window.addEventListener('scroll', requestRestaurantScrollMotion, { passive: true });
         window.addEventListener('resize', requestRestaurantScrollMotion);
+        // Recalculate after dish details expand/collapse (layout shift)
+        window.addEventListener('piccrestaurantupdate', () => {
+          // Invalidate cached path lengths so they get recalculated
+          document.querySelectorAll<SVGPathElement>('.menu-scroll-line-progress').forEach((p) => {
+            delete p.dataset.pathLength;
+          });
+          requestRestaurantScrollMotion();
+        });
       }
 
       document.addEventListener('DOMContentLoaded', initRestaurantMotion);

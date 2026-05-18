@@ -12,11 +12,11 @@ import { menuCategories } from '../data/menu';
   <main class="menu-page" data-salt-progress>
     <section id="hero" class="menu-hero">
       <div class="menu-salt" aria-hidden="true"></div>
-      <img class="menu-object menu-object-knife" src="/assets/decor/knife.svg" alt="" aria-hidden="true" loading="eager" />
-      <img class="menu-object menu-object-basil" src="/assets/decor/basil.svg" alt="" aria-hidden="true" loading="eager" />
-      <img class="menu-object menu-object-pasta" src="/assets/decor/pasta.svg" alt="" aria-hidden="true" loading="eager" />
+      <img class="menu-object menu-object-cutlery" src="/assets/decor/cutlery.svg" alt="" aria-hidden="true" loading="eager" data-parallax data-parallax-speed="0.045" data-parallax-rotate="2.2" />
+      <img class="menu-object menu-object-real menu-object-spice" src="/assets/decor/realistic/spice-spoons.png" alt="" aria-hidden="true" loading="eager" data-parallax data-parallax-speed="0.035" data-parallax-rotate="-2" />
       <div class="container-site menu-hero-inner">
         <div class="menu-hero-copy">
+          <img class="menu-copy-herb" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="eager" data-parallax data-parallax-speed="0.03" data-parallax-rotate="1.8" />
           <a class="back-link" href="/" data-reveal="up">На главную</a>
           <h1 data-reveal="clip">Menu</h1>
           <p data-reveal="up" data-reveal-delay="150">
@@ -27,13 +27,25 @@ import { menuCategories } from '../data/menu';
             <Button href="/#reservation" variant="accent" size="lg">Забронировать</Button>
           </div>
         </div>
-        <div class="menu-hero-plate" data-scroll-rotate="14" data-reveal="scale">
-          <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1200&q=86" alt="Паста на темной ресторанной тарелке" />
+        <div class="menu-hero-plate" data-scroll-dish data-motion-rotate="7" data-reveal="scale">
+          <img src="/assets/photos/menu-hero-ingredients.jpg" alt="Итальянские ингредиенты для меню ресторана PICCOLINO" />
         </div>
       </div>
     </section>
 
-    <div class="container-site menu-categories">
+    <div class="container-site menu-categories" data-menu-scroll-region>
+      <div class="menu-scroll-line" aria-hidden="true" data-menu-scroll-line>
+        <svg viewBox="0 0 1000 4800" preserveAspectRatio="none" focusable="false">
+          <path
+            class="menu-scroll-line-track"
+            d="M 180 80 C 380 320 110 560 290 820 C 480 1100 790 960 690 1340 C 600 1680 190 1640 285 1980 C 380 2300 780 2200 710 2590 C 650 2920 300 2980 420 3320 C 540 3660 820 3540 760 3900 C 700 4220 380 4320 500 4650"
+          />
+          <path
+            class="menu-scroll-line-progress"
+            d="M 180 80 C 380 320 110 560 290 820 C 480 1100 790 960 690 1340 C 600 1680 190 1640 285 1980 C 380 2300 780 2200 710 2590 C 650 2920 300 2980 420 3320 C 540 3660 820 3540 760 3900 C 700 4220 380 4320 500 4650"
+          />
+        </svg>
+      </div>
       {menuCategories.map((category, index) => (
         <MenuSection category={category} index={index} />
       ))}
@@ -57,6 +69,8 @@ import { menuCategories } from '../data/menu';
     --menu-salt-grain: rgba(92, 78, 65, 0.22);
     --menu-salt-grain-soft: rgba(92, 78, 65, 0.13);
     --menu-powder: rgba(255, 250, 241, 0.46);
+    --menu-line-track: rgba(45, 39, 34, 0.16);
+    --menu-line-progress: rgba(158, 63, 52, 0.54);
     --depth-opacity: 0.42;
     position: relative;
     overflow: hidden;
@@ -79,6 +93,8 @@ import { menuCategories } from '../data/menu';
     --menu-salt-grain: rgba(246, 239, 228, 0.62);
     --menu-salt-grain-soft: rgba(246, 239, 228, 0.34);
     --menu-powder: rgba(246, 239, 228, 0.12);
+    --menu-line-track: rgba(246, 239, 228, 0.13);
+    --menu-line-progress: rgba(246, 239, 228, 0.45);
     --depth-opacity: 0.5;
     background:
       linear-gradient(180deg, var(--menu-bg-a) 0%, var(--menu-bg-b) 44%, var(--menu-bg-c) 100%);
@@ -90,20 +106,45 @@ import { menuCategories } from '../data/menu';
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: calc(0.02 + var(--salt-progress) * 0.36);
+    opacity: calc(0.04 + var(--salt-progress) * 0.42);
+    /* Organic salt/flour texture: irregular grains, no grid feel */
     background-image:
-      radial-gradient(circle at 18% 32%, var(--menu-salt-grain) 0 0.055rem, transparent 0.08rem),
-      radial-gradient(circle at 64% 24%, var(--menu-salt-grain-soft) 0 0.075rem, transparent 0.1rem),
-      radial-gradient(circle at 82% 78%, var(--menu-salt-grain) 0 0.045rem, transparent 0.075rem),
-      radial-gradient(ellipse at 50% 50%, var(--menu-powder), transparent 56%);
-    background-size: 3.1rem 4.7rem, 7.4rem 5.6rem, 5.2rem 8.5rem, 34rem 24rem;
-    background-position: 83% 8%, 9% 36%, 72% 82%, 72% 16%;
-    clip-path: inset(calc((1 - var(--salt-progress)) * 26%) 0 0 0);
+      /* Fine dust layer — tiny, dense, irregular */
+      radial-gradient(ellipse 0.06rem 0.04rem at 17% 31%, var(--menu-salt-grain) 100%, transparent),
+      radial-gradient(ellipse 0.05rem 0.07rem at 63% 23%, var(--menu-salt-grain-soft) 100%, transparent),
+      radial-gradient(ellipse 0.07rem 0.04rem at 81% 77%, var(--menu-salt-grain) 100%, transparent),
+      radial-gradient(ellipse 0.04rem 0.06rem at 44% 58%, var(--menu-salt-grain-soft) 100%, transparent),
+      /* Medium grains — scattered, uneven spacing */
+      radial-gradient(ellipse 0.14rem 0.09rem at 28% 14%, var(--menu-salt-grain) 100%, transparent),
+      radial-gradient(ellipse 0.11rem 0.15rem at 71% 44%, var(--menu-salt-grain-soft) 100%, transparent),
+      radial-gradient(ellipse 0.13rem 0.08rem at 52% 82%, var(--menu-salt-grain) 100%, transparent),
+      radial-gradient(ellipse 0.09rem 0.12rem at 88% 29%, var(--menu-salt-grain-soft) 100%, transparent),
+      /* Soft powder clouds — large, very low opacity gradient areas */
+      radial-gradient(ellipse 28rem 18rem at 22% 62%, var(--menu-powder), transparent 70%),
+      radial-gradient(ellipse 18rem 24rem at 78% 18%, var(--menu-powder), transparent 60%);
+    background-size:
+      3.7rem 5.2rem, 8.1rem 6.3rem, 5.8rem 9.4rem, 11.2rem 7.6rem,
+      6.4rem 4.8rem, 13.6rem 9.2rem, 8.8rem 14rem, 10.4rem 6.8rem,
+      100% 100%, 100% 100%;
+    background-position:
+      83% 8%, 9% 36%, 72% 82%, 38% 61%,
+      57% 22%, 19% 74%, 86% 51%, 43% 9%,
+      0% 0%, 0% 0%;
+    background-repeat:
+      repeat, repeat, repeat, repeat,
+      repeat, repeat, repeat, repeat,
+      no-repeat, no-repeat;
+    clip-path: inset(calc((1 - var(--salt-progress)) * 20%) 0 0 0);
     mask-image:
-      radial-gradient(ellipse at 72% 18%, black 0 22%, transparent 48%),
-      radial-gradient(ellipse at 18% 60%, black 0 18%, transparent 42%),
-      radial-gradient(ellipse at 76% 82%, black 0 12%, transparent 34%);
+      radial-gradient(ellipse at 68% 22%, black 0 18%, transparent 44%),
+      radial-gradient(ellipse at 22% 64%, black 0 14%, transparent 38%),
+      radial-gradient(ellipse at 74% 80%, black 0 10%, transparent 30%);
     transition: opacity 1200ms ease, clip-path 1400ms var(--ease-out);
+  }
+
+  /* Light theme: almost invisible, just faint warmth */
+  :not(:global([data-theme="dark"])) .menu-page::before {
+    opacity: calc(0.01 + var(--salt-progress) * 0.08);
   }
 
   :global(.menu-page [data-reveal]) {
@@ -185,6 +226,8 @@ import { menuCategories } from '../data/menu';
   .menu-hero-plate {
     position: relative;
     aspect-ratio: 1;
+    transform: translateY(var(--dish-motion-y, 0px)) rotate(var(--dish-motion-rotate, 0deg)) scale(var(--dish-motion-scale, 1));
+    will-change: transform;
   }
 
   .menu-hero-plate::before {
@@ -215,44 +258,60 @@ import { menuCategories } from '../data/menu';
     animation: menu-object-float 8s ease-in-out infinite;
   }
 
-  .menu-object-knife {
+  .menu-object-cutlery {
     right: clamp(1rem, 5vw, 5rem);
-    top: 18%;
-    width: clamp(2.4rem, 4vw, 3.4rem);
+    top: 14%;
+    width: clamp(6rem, 10vw, 9rem);
     height: auto;
-    transform: rotate(31deg);
-    filter: blur(0.35px) drop-shadow(0 1rem 1.4rem rgba(0, 0, 0, 0.18));
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(calc(17deg + var(--parallax-rotate, 0deg)));
+    opacity: calc(var(--depth-opacity) * 0.86);
+    filter: contrast(1.18) brightness(0.92) drop-shadow(0 1rem 1.4rem rgba(0, 0, 0, 0.18));
   }
 
-  .menu-object-basil {
-    left: clamp(1rem, 6vw, 6rem);
-    top: 28%;
-    width: clamp(4.5rem, 7vw, 6.4rem);
+  .menu-object-real {
     height: auto;
-    filter: drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.16));
+    object-fit: contain;
+  }
+
+  .menu-object-spice {
+    right: clamp(8rem, 18vw, 18rem);
+    bottom: 6%;
+    width: clamp(5rem, 8vw, 7.5rem);
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(calc(-12deg + var(--parallax-rotate, 0deg)));
+    opacity: 0.32;
+    filter: saturate(0.88) contrast(0.92) drop-shadow(0 1rem 1.4rem rgba(0, 0, 0, 0.16));
     animation-delay: -3s;
   }
 
-  .menu-object-pasta {
-    right: 38%;
-    bottom: 12%;
-    width: clamp(5rem, 8vw, 7rem);
+  :global([data-theme="dark"]) .menu-object-cutlery {
+    opacity: 0.58;
+    filter: invert(1) sepia(0.12) saturate(0.55) brightness(1.08) drop-shadow(0 0 1.1rem rgba(246, 239, 228, 0.14)) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.28));
+  }
+
+  :global([data-theme="dark"]) .menu-object-real {
+    opacity: 0.46;
+    filter: saturate(0.82) brightness(0.86) contrast(1.02) drop-shadow(0 0 1.1rem rgba(246, 239, 228, 0.08)) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.3));
+  }
+
+  .menu-hero-copy {
+    position: relative;
+  }
+
+  .menu-copy-herb {
+    position: absolute;
+    pointer-events: none;
+    right: clamp(0rem, 6vw, 4rem);
+    top: -2.6rem;
+    z-index: -1;
+    width: clamp(4.8rem, 7vw, 7rem);
     height: auto;
-    transform: rotate(-18deg);
-    animation-delay: -5s;
-    filter: sepia(0.22) saturate(0.82) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.16));
+    opacity: calc(var(--depth-opacity) * 0.78);
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(calc(31deg + var(--parallax-rotate, 0deg)));
+    filter: drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.16));
   }
 
-  :global([data-theme="dark"]) .menu-object-knife {
-    filter: invert(1) sepia(0.12) saturate(0.55) opacity(0.7) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.28));
-  }
-
-  :global([data-theme="dark"]) .menu-object-basil {
-    filter: invert(0.84) sepia(0.35) saturate(0.78) opacity(0.72) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.28));
-  }
-
-  :global([data-theme="dark"]) .menu-object-pasta {
-    filter: invert(0.9) sepia(0.42) saturate(0.85) opacity(0.78) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.28));
+  :global([data-theme="dark"]) .menu-copy-herb {
+    filter: invert(0.92) sepia(0.18) saturate(0.64) opacity(0.78) drop-shadow(0 1rem 1.6rem rgba(0, 0, 0, 0.28));
   }
 
   @keyframes menu-object-float {
@@ -261,7 +320,50 @@ import { menuCategories } from '../data/menu';
   }
 
   .menu-categories {
+    isolation: isolate;
     padding-bottom: clamp(4rem, 9vw, 8rem);
+  }
+
+  .menu-scroll-line {
+    position: absolute;
+    inset: 0 clamp(1.25rem, 5vw, 5rem) 0 clamp(1.25rem, 5vw, 5rem);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.88;
+  }
+
+  .menu-scroll-line svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .menu-scroll-line path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .menu-scroll-line-track {
+    stroke: var(--menu-line-track);
+    stroke-width: 1.2;
+    stroke-dasharray: 2 18;
+  }
+
+  .menu-scroll-line-progress {
+    stroke: var(--menu-line-progress);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 0.6rem rgba(158, 63, 52, 0.22)) drop-shadow(0 0.5rem 1.4rem rgba(158, 63, 52, 0.14));
+    transition: stroke 240ms ease;
+  }
+
+  :global([data-theme="dark"]) .menu-scroll-line-progress {
+    filter: drop-shadow(0 0 0.8rem rgba(240, 162, 142, 0.18)) drop-shadow(0 0.5rem 1.4rem rgba(246, 239, 228, 0.08));
+  }
+
+  .menu-categories :global(.menu-category) {
+    z-index: 1;
   }
 
   @media (max-width: 880px) {
@@ -269,16 +371,30 @@ import { menuCategories } from '../data/menu';
     .menu-hero-inner { grid-template-columns: 1fr; }
     .menu-hero-plate { width: min(100%, 18rem); margin-inline: auto; }
     .hero-actions :global(.btn) { width: 100%; }
-    .menu-object-knife,
-    .menu-object-pasta { display: none; }
+    .menu-object-cutlery,
+    .menu-object-real { display: none; }
+    .menu-copy-herb { right: 0; top: -1.8rem; width: clamp(4rem, 18vw, 5.2rem); }
+    .menu-scroll-line {
+      inset: 1rem auto 0 clamp(0.8rem, 3vw, 1.25rem);
+      width: clamp(3rem, 15vw, 5.5rem);
+      opacity: 0.42;
+    }
+
+    .menu-scroll-line-track { stroke-width: 0.9; }
+    .menu-scroll-line-progress { stroke-width: 1.4; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .menu-object,
     .menu-page::before,
-    .menu-salt {
+    .menu-salt,
+    .menu-scroll-line-progress {
       animation: none;
       transition: none;
+    }
+
+    .menu-scroll-line-progress {
+      stroke-dashoffset: 0 !important;
     }
   }
 </style>

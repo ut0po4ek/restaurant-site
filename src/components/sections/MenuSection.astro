@@ -7,17 +7,41 @@ interface Props {
 }
 
 const { category, index } = Astro.props;
+
+const tagMap: Record<string, { label: string; color: string; bg: string }> = {
+  'chef choice':  { label: 'Выбор шефа',         color: '#c4873a', bg: 'rgba(196,135,58,0.13)'  },
+  'seafood':      { label: 'Морепродукты',         color: '#2d8a8a', bg: 'rgba(45,138,138,0.13)' },
+  'vegetarian':   { label: 'Вегетарианское',       color: '#4a9c5a', bg: 'rgba(74,156,90,0.13)'  },
+  'vegan':        { label: 'Веган',                color: '#3da86e', bg: 'rgba(61,168,110,0.13)' },
+  'grill':        { label: 'На гриле',             color: '#c45a2a', bg: 'rgba(196,90,42,0.13)'  },
+  'cold starter': { label: 'Холодная закуска',     color: '#5a7a9c', bg: 'rgba(90,122,156,0.13)' },
+  'raw':          { label: 'Сырое',                color: '#b84a3a', bg: 'rgba(184,74,58,0.13)'  },
+  'slow cooked':  { label: 'Томлёное',             color: '#8a6040', bg: 'rgba(138,96,64,0.13)'  },
+  'classic':      { label: 'Классика',             color: '#9a7a40', bg: 'rgba(154,122,64,0.13)' },
+  'nuts':         { label: 'Орехи',                color: '#7a6050', bg: 'rgba(122,96,80,0.13)'  },
+  'sparkling':    { label: 'Игристое',             color: '#8a9a5a', bg: 'rgba(138,154,90,0.13)' },
+  'white':        { label: 'Белое',                color: '#9a8a40', bg: 'rgba(154,138,64,0.13)' },
+  'red':          { label: 'Красное',              color: '#9a3a4a', bg: 'rgba(154,58,74,0.13)'  },
+};
+
+// Unique decor image per category — no basil
+const categoryDecorSrc = [
+  '/assets/decor/realistic/tomatoes-vine.png',  // starters
+  '/assets/decor/realistic/spice-spoons.png',   // pasta
+  '/assets/decor/realistic/rosemary.png',       // mains
+  '/assets/decor/realistic/avocado-half.png',   // desserts
+  '/assets/decor/realistic/spice-mounds.png',   // wine
+][index] ?? '/assets/decor/realistic/rosemary.png';
 ---
 
 <section class={`menu-category ${index % 2 ? 'is-reverse' : ''}`} id={category.id}>
-  <img class="menu-depth menu-depth-rosemary" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="lazy" />
-  <img class="menu-depth menu-depth-spoon" src="/assets/decor/spoon.svg" alt="" aria-hidden="true" loading="lazy" />
-  <img class="menu-depth menu-depth-tomato" src="/assets/decor/tomato.svg" alt="" aria-hidden="true" loading="lazy" />
-  <div class="category-image" data-reveal={index % 2 ? 'right' : 'left'} data-scroll-rotate={String(8 + index * 2)} data-scroll-direction={index % 2 ? 'reverse' : 'normal'}>
+  <div class="category-image" data-reveal={index % 2 ? 'right' : 'left'} data-scroll-dish data-motion-direction={index % 2 ? 'reverse' : 'normal'} data-motion-rotate={String(6 + index)}>
     <img src={category.image} alt={category.imageAlt} loading="lazy" />
   </div>
 
   <div class="category-copy" data-reveal={index % 2 ? 'left' : 'right'}>
+    <img class="category-decor category-decor-herb" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.025" data-parallax-rotate="1.4" />
+    <img class="category-decor category-decor-photo" src={categoryDecorSrc} alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.02" data-parallax-rotate={index % 2 ? '-1.2' : '1.2'} />
     <p class="category-number">0{index + 1}</p>
     <h2>{category.title}</h2>
     <p class="category-subtitle">{category.subtitle}</p>
@@ -33,31 +57,55 @@ const { category, index } = Astro.props;
             </span>
             <span class="dish-side">
               <strong>{item.price}</strong>
-              <svg class="dish-chevron" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-                <path d="m4.5 6.75 4.5 4.5 4.5-4.5" />
-              </svg>
+              {item.details && (
+                <svg class="dish-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+                  <circle cx="8" cy="8" r="6.5"/>
+                  <path d="M8 7.5v3.2M8 5v.01"/>
+                </svg>
+              )}
             </span>
           </button>
+
           {item.details && (
             <div class="dish-details" id={detailId} hidden data-dish-details>
-              <div class="detail-stats">
-                <span>{item.details.weight}</span>
-                <span>{item.details.calories}</span>
-                <span>Б {item.details.protein}</span>
-                <span>Ж {item.details.fat}</span>
-                <span>У {item.details.carbs}</span>
-              </div>
-              <div class="detail-grid">
-                <p><b>Состав</b>{item.details.composition}</p>
-                <p><b>Аллергены</b>{item.details.allergens}</p>
-                <p><b>Вино</b>{item.details.winePairing}</p>
-                <p><b>Подача</b>{item.details.cookTime}</p>
-              </div>
-              {item.details.tags && (
-                <div class="detail-tags">
-                  {item.details.tags.map((tag) => <span>{tag}</span>)}
+              <div class="dish-modal-inner" data-dish-modal-inner>
+                <button class="dish-close" type="button" aria-label="Закрыть" data-dish-close>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M1 1l10 10M11 1L1 11"/>
+                  </svg>
+                </button>
+
+                <div class="modal-dish-name">{item.name}</div>
+
+                <table class="detail-nutrition">
+                  <tbody>
+                    <tr><th scope="row">Вес</th><td>{item.details.weight}</td></tr>
+                    <tr><th scope="row">Калорийность</th><td>{item.details.calories}</td></tr>
+                    <tr><th scope="row">Белки</th><td>{item.details.protein}</td></tr>
+                    <tr><th scope="row">Жиры</th><td>{item.details.fat}</td></tr>
+                    <tr><th scope="row">Углеводы</th><td>{item.details.carbs}</td></tr>
+                  </tbody>
+                </table>
+                <div class="detail-grid">
+                  <p><b>Состав</b>{item.details.composition}</p>
+                  <p><b>Аллергены</b>{item.details.allergens}</p>
+                  <p><b>Вино</b>{item.details.winePairing}</p>
+                  <p><b>Подача</b>{item.details.cookTime}</p>
                 </div>
-              )}
+                {item.details.tags && (
+                  <div class="detail-tags">
+                    {item.details.tags.map((tag) => {
+                      const t = tagMap[tag] ?? { label: tag, color: '#888', bg: 'rgba(128,128,128,0.1)' };
+                      return (
+                        <span
+                          class="detail-tag"
+                          style={`--tag-color:${t.color};--tag-bg:${t.bg}`}
+                        >{t.label}</span>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </article>
@@ -90,6 +138,13 @@ const { category, index } = Astro.props;
     aspect-ratio: 1;
     width: min(100%, 25rem);
     margin-inline: auto;
+    transform: translateY(var(--dish-motion-y, 0px)) rotate(var(--dish-motion-rotate, 0deg)) scale(var(--dish-motion-scale, 1));
+    will-change: transform;
+  }
+
+  .category-copy {
+    position: relative;
+    z-index: 1;
   }
 
   .category-image::before {
@@ -109,7 +164,8 @@ const { category, index } = Astro.props;
     object-fit: cover;
     border-radius: 50%;
     box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.56);
-    transition: transform 700ms var(--ease-out);
+    transition: transform 500ms var(--ease-out);
+    transform: scale(1);
   }
 
   .category-image:hover img {
@@ -169,6 +225,7 @@ const { category, index } = Astro.props;
     padding: 1.15rem 0;
     color: inherit;
     text-align: left;
+    cursor: pointer;
   }
 
   .dish-toggle:hover,
@@ -215,12 +272,13 @@ const { category, index } = Astro.props;
 
   .dish-chevron {
     color: var(--menu-muted);
-    transition: transform 260ms ease, color 260ms ease;
+    transition: color 260ms ease;
+    flex-shrink: 0;
   }
 
-  .menu-dish.is-open .dish-chevron {
+  .menu-dish.is-open .dish-chevron,
+  .menu-dish:hover .dish-chevron {
     color: var(--menu-accent);
-    transform: rotate(180deg);
   }
 
   .menu-dish:hover strong,
@@ -228,34 +286,161 @@ const { category, index } = Astro.props;
     transform: translateX(-0.25rem);
   }
 
+  /* ── Modal overlay ── */
   .dish-details {
-    display: grid;
-    gap: 1rem;
-    overflow: hidden;
-    padding: 0 0 1.2rem;
-    color: var(--menu-muted);
-    animation: details-open 340ms var(--ease-out) both;
+    position: fixed;
+    inset: 0;
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    background: rgba(10, 7, 5, 0.86);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: backdrop-in 250ms ease both;
+    overscroll-behavior: contain;
   }
 
-  .detail-stats,
+  .dish-details.is-closing {
+    animation: backdrop-out 220ms ease both;
+  }
+
+  /* ── Modal card ── */
+  .dish-modal-inner {
+    position: relative;
+    width: 100%;
+    max-width: 30rem;
+    max-height: 88svh;
+    overflow-y: hidden;
+    overscroll-behavior: contain;
+    background: var(--color-bg-warm, #faf7f3);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 1.4rem;
+    padding: 1.8rem 1.6rem 1.6rem;
+    box-shadow: 0 2.5rem 7rem rgba(0, 0, 0, 0.38);
+    display: grid;
+    gap: 1.2rem;
+    animation: modal-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .dish-details.is-closing .dish-modal-inner {
+    animation: modal-out 220ms ease both;
+  }
+
+  :global([data-theme="dark"]) .dish-modal-inner {
+    background: #1e1a16;
+    border-color: rgba(246, 239, 228, 0.07);
+  }
+
+  /* ── Close button ── */
+  .dish-close {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--menu-border-soft, rgba(0,0,0,0.1));
+    border-radius: 50%;
+    background: transparent;
+    color: var(--menu-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+
+  .dish-close:hover {
+    background: var(--menu-accent);
+    border-color: var(--menu-accent);
+    color: #fff;
+  }
+
+  /* ── Dish name inside modal ── */
+  .modal-dish-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 600;
+    color: var(--menu-fg);
+    line-height: 1.2;
+    padding-right: 2rem;
+  }
+
+  /* ── Nutrition table ── */
+  .detail-nutrition {
+    --nutrition-line: rgba(45, 39, 34, 0.22);
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid rgba(45, 39, 34, 0.24);
+    border-radius: 0.9rem;
+    background: color-mix(in srgb, var(--color-surface, #fffaf1) 58%, transparent);
+    font-size: 0.86rem;
+    line-height: 1.35;
+  }
+
+  :global([data-theme="dark"]) .detail-nutrition {
+    --nutrition-line: rgba(246, 239, 228, 0.095);
+    background: rgba(246, 239, 228, 0.035);
+    border-color: rgba(246, 239, 228, 0.12);
+  }
+
+  .detail-nutrition th,
+  .detail-nutrition td {
+    padding: 0.62rem 0.75rem;
+    border-top: 1px solid var(--nutrition-line);
+    vertical-align: middle;
+  }
+
+  .detail-nutrition th + th,
+  .detail-nutrition td {
+    border-left: 1px solid var(--nutrition-line);
+  }
+
+  .detail-nutrition tbody tr:first-child th,
+  .detail-nutrition tbody tr:first-child td {
+    border-top: 0;
+  }
+
+  .detail-nutrition tbody th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--menu-muted);
+    width: 52%;
+  }
+
+  .detail-nutrition td {
+    text-align: right;
+    font-weight: 700;
+    color: var(--menu-fg);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ── Tags ── */
   .detail-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
-  .detail-stats span,
-  .detail-tags span {
-    border: 1px solid var(--menu-border-soft);
+  /* Цветные теги */
+  .detail-tag {
+    border: 1px solid var(--tag-color);
     border-radius: 999px;
-    padding: 0.42rem 0.7rem;
-    background: var(--menu-chip-bg);
-    color: var(--menu-fg);
+    padding: 0.42rem 0.82rem;
+    background: var(--tag-bg);
+    color: var(--tag-color);
     font-size: 0.74rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
+  /* ── Detail grid ── */
   .detail-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -278,54 +463,62 @@ const { category, index } = Astro.props;
     text-transform: uppercase;
   }
 
-  .menu-depth {
+  /* ── Decor ── */
+  .category-decor {
     position: absolute;
     pointer-events: none;
-    object-fit: contain;
-    opacity: var(--depth-opacity, 0.52);
+    z-index: -1;
     animation: menu-depth-float 9s ease-in-out infinite;
   }
 
-  .menu-depth-rosemary {
-    right: 2%;
-    top: 12%;
-    width: clamp(7rem, 10vw, 10rem);
+  .category-decor-herb {
+    right: clamp(0rem, 4vw, 2.5rem);
+    top: -1.8rem;
+    width: clamp(5.5rem, 9vw, 8.5rem);
     height: auto;
-    transform: rotate(42deg);
-    z-index: -1;
+    object-fit: contain;
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(calc(36deg + var(--parallax-rotate, 0deg)));
     opacity: calc(var(--depth-opacity, 0.52) * 0.9);
-    filter: blur(0.35px) drop-shadow(0 1rem 1.8rem rgba(0, 0, 0, 0.14));
+    filter: drop-shadow(0 1.2rem 2rem rgba(0, 0, 0, 0.18));
   }
 
-  .menu-depth-spoon {
-    left: 3%;
-    bottom: 8%;
-    width: clamp(2.4rem, 4vw, 3.3rem);
+  .category-decor-photo {
+    left: clamp(9rem, 22vw, 18rem);
+    top: clamp(0.4rem, 2vw, 1.4rem);
+    width: clamp(4rem, 6.5vw, 6rem);
     height: auto;
-    transform: rotate(-23deg);
-    filter: blur(0.3px) drop-shadow(0 1rem 1.8rem rgba(0, 0, 0, 0.18));
-    z-index: 0;
+    object-fit: contain;
+    opacity: 0.50;
+    filter: saturate(1.04) contrast(1.04) drop-shadow(0 1.2rem 2rem rgba(0, 0, 0, 0.18));
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(calc(-12deg + var(--parallax-rotate, 0deg)));
     animation-delay: -3s;
   }
 
-  .menu-depth-tomato {
-    right: 16%;
-    bottom: 16%;
-    width: clamp(1.5rem, 2.3vw, 2.2rem);
-    height: auto;
-    filter: drop-shadow(0 1rem 2rem rgba(0, 0, 0, 0.18));
-    z-index: 2;
-    animation-delay: -5s;
+  :global([data-theme="dark"]) .category-decor-herb {
+    filter: invert(1) sepia(0.14) saturate(0.6) opacity(0.86) drop-shadow(0 1.2rem 2rem rgba(0, 0, 0, 0.34));
   }
 
-  :global([data-theme="dark"]) .menu-depth-rosemary,
-  :global([data-theme="dark"]) .menu-depth-spoon {
-    filter: invert(1) sepia(0.14) saturate(0.55) opacity(0.72) drop-shadow(0 1rem 1.8rem rgba(0, 0, 0, 0.3));
+  :global([data-theme="dark"]) .category-decor-photo {
+    opacity: 0.58;
+    filter: saturate(0.88) brightness(0.86) contrast(1.06) drop-shadow(0 0 1.2rem rgba(246, 239, 228, 0.12)) drop-shadow(0 1.2rem 2rem rgba(0, 0, 0, 0.34));
   }
 
-  @keyframes details-open {
-    from { opacity: 0; transform: translateY(-0.5rem); }
-    to { opacity: 1; transform: translateY(0); }
+  /* ── Keyframes ── */
+  @keyframes backdrop-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes backdrop-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(1.2rem) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes modal-out {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(0.6rem) scale(0.96); }
   }
 
   @keyframes menu-depth-float {
@@ -333,6 +526,7 @@ const { category, index } = Astro.props;
     50% { translate: 0 -0.65rem; }
   }
 
+  /* ── Responsive ── */
   @media (max-width: 860px) {
     .menu-category,
     .menu-category.is-reverse { grid-template-columns: 1fr; }
@@ -340,16 +534,22 @@ const { category, index } = Astro.props;
     .is-reverse .category-copy { order: initial; }
     .category-image { width: min(100%, 18rem); }
     .dish-toggle { gap: 1rem; }
-    .menu-depth-spoon,
-    .menu-depth-rosemary { display: none; }
-  }
-
-  @media (max-width: 540px) {
-    .dish-toggle,
+    .category-decor-photo { display: none; }
+    .category-decor-herb {
+      right: 0;
+      top: -1rem;
+      width: clamp(3.8rem, 16vw, 5.2rem);
+      opacity: calc(var(--depth-opacity, 0.52) * 0.5);
+    }
     .detail-grid {
       grid-template-columns: 1fr;
     }
+  }
 
+  @media (max-width: 540px) {
+    .dish-toggle {
+      grid-template-columns: 1fr;
+    }
     .dish-side {
       width: 100%;
       justify-content: space-between;
@@ -357,12 +557,20 @@ const { category, index } = Astro.props;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .menu-depth,
-    .dish-details,
-    .category-image img,
+    .category-decor,
     h2::after {
       animation: none;
       transition: none;
+    }
+    .category-image {
+      transform: none !important;
+    }
+    .category-image img {
+      transition: none;
+    }
+    .dish-details,
+    .dish-modal-inner {
+      animation: none !important;
     }
   }
 </style>
@@ -373,18 +581,99 @@ const { category, index } = Astro.props;
       if (dish.dataset.dishReady === 'true') return;
       dish.dataset.dishReady = 'true';
 
-      const toggle = dish.querySelector<HTMLButtonElement>('[data-dish-toggle]');
-      const details = dish.querySelector<HTMLElement>('[data-dish-details]');
+      const toggle     = dish.querySelector<HTMLButtonElement>('[data-dish-toggle]');
+      const details    = dish.querySelector<HTMLElement>('[data-dish-details]');
+      const closeBtn   = dish.querySelector<HTMLButtonElement>('[data-dish-close]');
       if (!toggle || !details) return;
 
-      toggle.addEventListener('click', () => {
-        const expanded = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!expanded));
-        dish.classList.toggle('is-open', !expanded);
-        details.hidden = expanded;
+      // Capture non-nullable refs so closures don't lose type narrowing
+      const toggleEl: HTMLButtonElement = toggle;
+      const detailsEl: HTMLElement = details;
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let escController: AbortController | null = null;
+      let closeTimer = 0;
+
+      function doClose() {
+        clearTimeout(closeTimer);
+        detailsEl.classList.remove('is-closing');
+        detailsEl.hidden = true;
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        toggleEl.setAttribute('aria-expanded', 'false');
+        dish.classList.remove('is-open');
+        escController?.abort();
+        escController = null;
+      }
+
+      function closeWithAnim() {
+        if (reduced) { doClose(); return; }
+        detailsEl.classList.add('is-closing');
+        // Fallback if animationend doesn't fire
+        closeTimer = window.setTimeout(doClose, 270);
+        detailsEl.addEventListener('animationend', () => {
+          clearTimeout(closeTimer);
+          doClose();
+        }, { once: true });
+      }
+
+      function openDish() {
+        // Close any other open dish instantly (no animation)
+        document.querySelectorAll<HTMLElement>('[data-menu-dish].is-open').forEach((d) => {
+          if (d === dish) return;
+          const t   = d.querySelector<HTMLButtonElement>('[data-dish-toggle]');
+          const det = d.querySelector<HTMLElement>('[data-dish-details]');
+          if (t && det) {
+            t.setAttribute('aria-expanded', 'false');
+            d.classList.remove('is-open');
+            det.classList.remove('is-closing');
+            det.hidden = true;
+          }
+        });
+
+        // Portal: move to <body> so position:fixed isn't trapped by parent transforms
+        // (.menu-dish has data-reveal which applies transform, breaking fixed children)
+        if (detailsEl.parentElement !== document.body) {
+          document.body.appendChild(detailsEl);
+        }
+        detailsEl.hidden = false;
+        toggleEl.setAttribute('aria-expanded', 'true');
+        dish.classList.add('is-open');
+        // Compensate scrollbar width so layout doesn't jump when overflow:hidden hides it
+        const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.overflow = 'hidden';
+        if (scrollbarW > 0) document.body.style.paddingRight = `${scrollbarW}px`;
+
+        escController = new AbortController();
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeWithAnim();
+        }, { signal: escController.signal });
+      }
+
+      toggleEl.addEventListener('click', () => {
+        if (toggleEl.getAttribute('aria-expanded') === 'true') {
+          closeWithAnim();
+        } else {
+          openDish();
+        }
+      });
+
+      closeBtn?.addEventListener('click', closeWithAnim);
+
+      // Click directly on backdrop (not on the card) → close
+      detailsEl.addEventListener('click', (e) => {
+        if (e.target === detailsEl) closeWithAnim();
       });
     });
   }
+
+  // On page navigation: unlock scroll and remove any portal modals from body
+  document.addEventListener('astro:before-swap', () => {
+    document.body.style.overflow = '';
+    document.querySelectorAll<HTMLElement>('[data-dish-details]').forEach(el => {
+      el.hidden = true;
+    });
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMenuDishes, { once: true });

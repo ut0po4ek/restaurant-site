@@ -3,6 +3,16 @@ import { signatureDishes } from '../../data/menu';
 ---
 
 <section class="signature-dishes section-padding">
+  <img
+    class="signature-tomato-decor"
+    src="/assets/decor/realistic/tomatoes-vine.png"
+    alt=""
+    aria-hidden="true"
+    loading="lazy"
+    data-parallax
+    data-parallax-speed="0.028"
+    data-parallax-rotate="-1.8"
+  />
   <div class="container-site">
     <div class="section-head">
       <span class="eyebrow-line" data-reveal="up">Фирменные блюда</span>
@@ -15,12 +25,9 @@ import { signatureDishes } from '../../data/menu';
           <div class="dish-visual" data-scroll-rotate={String(10 + index * 3)} data-scroll-direction={index % 2 ? 'reverse' : 'normal'}>
             <span class="dish-shadow"></span>
             <img class="dish-plate" src={dish.image} alt={dish.alt} loading="lazy" />
-            <img class="dish-decor decor-rosemary" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="lazy" />
-            <img class="dish-decor decor-tomato" src="/assets/decor/tomato.svg" alt="" aria-hidden="true" loading="lazy" />
-            <img class="dish-decor decor-pasta" src="/assets/decor/pasta.svg" alt="" aria-hidden="true" loading="lazy" />
-            <img class="dish-decor decor-fork" src="/assets/decor/fork.svg" alt="" aria-hidden="true" loading="lazy" />
           </div>
           <div class="dish-copy">
+            <img class="dish-decor decor-rosemary" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="lazy" />
             <p class="dish-index">0{index + 1}</p>
             <h3>{dish.name}</h3>
             <p>{dish.note}</p>
@@ -34,8 +41,35 @@ import { signatureDishes } from '../../data/menu';
 
 <style>
   .signature-dishes {
+    position: relative;
     background: var(--color-bg);
     overflow: hidden;
+  }
+
+  .signature-tomato-decor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    left: max(0.5rem, calc((100vw - 1440px) / 2 + 1rem));
+    top: 12%;
+    width: clamp(6rem, 9.5vw, 9rem);
+    height: auto;
+    object-fit: contain;
+    opacity: 0.36;
+    filter: saturate(1.08) contrast(1.04) drop-shadow(0 1.2rem 2rem rgba(25,23,21,0.16));
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(calc(-10deg + var(--parallax-rotate, 0deg)));
+    animation: sig-tomato-float 13s ease-in-out infinite;
+  }
+
+  :global([data-theme="dark"]) .signature-tomato-decor {
+    opacity: 0.28;
+    filter: saturate(0.92) brightness(0.82) contrast(1.06) drop-shadow(0 0 1.2rem rgba(246,239,228,0.1)) drop-shadow(0 1rem 2rem rgba(0,0,0,0.34));
+  }
+
+  @keyframes sig-tomato-float {
+    0%, 100% { translate: 0 0; }
+    40% { translate: 0.4rem -0.9rem; }
+    70% { translate: -0.2rem -0.5rem; }
   }
 
   .section-head {
@@ -101,62 +135,23 @@ import { signatureDishes } from '../../data/menu';
     position: absolute;
     pointer-events: none;
     object-fit: contain;
+    z-index: -1;
     filter: drop-shadow(0 0.85rem 1.15rem rgba(25, 23, 21, 0.18));
     animation: dish-decor-float 8s ease-in-out infinite;
   }
 
   .decor-rosemary {
-    z-index: 3;
-    width: clamp(4.8rem, 8vw, 7.3rem);
+    width: clamp(4.3rem, 7vw, 6.3rem);
     height: auto;
-    right: 4%;
-    top: 4%;
-    opacity: 0.78;
-    transform: rotate(34deg);
+    right: -0.7rem;
+    top: -1.4rem;
+    opacity: 0.46;
+    transform: rotate(27deg);
     filter: drop-shadow(0 1rem 1.25rem rgba(25, 23, 21, 0.22));
   }
 
-  .decor-tomato {
-    z-index: 3;
-    width: clamp(1.9rem, 3vw, 2.6rem);
-    height: auto;
-    left: 8%;
-    bottom: 17%;
-    opacity: 0.9;
-    animation-delay: -1.5s;
-  }
-
-  .decor-pasta {
-    z-index: 0;
-    width: clamp(4rem, 8vw, 6.2rem);
-    height: auto;
-    left: -2%;
-    top: 22%;
-    opacity: 0.72;
-    filter: blur(0.2px) drop-shadow(0 0.9rem 1rem rgba(25, 23, 21, 0.16)) sepia(0.28) saturate(0.82);
-    transform: rotate(-23deg);
-    animation-delay: -3s;
-  }
-
-  .decor-fork {
-    z-index: 0;
-    right: -7%;
-    bottom: 4%;
-    width: clamp(2.2rem, 4vw, 3.1rem);
-    height: auto;
-    opacity: 0.38;
-    transform: rotate(23deg);
-    filter: blur(0.45px) drop-shadow(0 1rem 1.3rem rgba(25, 23, 21, 0.18));
-    animation-delay: -4.4s;
-  }
-
-  :global([data-theme="dark"]) .decor-rosemary,
-  :global([data-theme="dark"]) .decor-fork {
+  :global([data-theme="dark"]) .decor-rosemary {
     filter: invert(1) sepia(0.18) saturate(0.55) opacity(0.72) drop-shadow(0 1rem 1.4rem rgba(0, 0, 0, 0.28));
-  }
-
-  :global([data-theme="dark"]) .decor-pasta {
-    filter: invert(0.88) sepia(0.42) saturate(0.8) opacity(0.76) drop-shadow(0 1rem 1.4rem rgba(0, 0, 0, 0.28));
   }
 
   @keyframes dish-decor-float {
@@ -204,8 +199,12 @@ import { signatureDishes } from '../../data/menu';
       min-height: auto;
       margin-top: 0;
     }
-    .decor-fork,
-    .decor-pasta { display: none; }
+    .decor-rosemary {
+      right: 0;
+      top: -0.8rem;
+      width: clamp(3.7rem, 16vw, 5.2rem);
+      opacity: 0.34;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

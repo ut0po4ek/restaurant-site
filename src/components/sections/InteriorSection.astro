@@ -1,0 +1,225 @@
+---
+import Button from '../ui/Button.astro';
+---
+
+<section id="interior" class="interior-section section-padding">
+  <img
+    class="interior-decor-board"
+    src="/assets/decor/realistic/pizza-board.png"
+    alt=""
+    aria-hidden="true"
+    loading="lazy"
+    data-parallax
+    data-parallax-speed="0.03"
+    data-parallax-rotate="1.5"
+  />
+
+  <div class="container-site interior-inner">
+    <div class="interior-gallery" data-reveal="left">
+      <figure class="gallery-main">
+        <img
+          src="/assets/photos/about-dining-room.jpg"
+          alt="Тёплый вечерний зал ресторана PICCOLINO с приглушённым светом"
+          loading="lazy"
+        />
+      </figure>
+      <figure class="gallery-detail gallery-detail-a">
+        <img
+          src="/assets/photos/about-table.jpg"
+          alt="Сервированный стол с приборами и бокалами"
+          loading="lazy"
+        />
+      </figure>
+      <figure class="gallery-detail gallery-detail-b">
+        <img
+          src="/assets/photos/wine-evening.jpg"
+          alt="Бутылки вина на фоне тёплого освещения"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+
+    <div class="interior-copy" data-reveal="right">
+      <span class="eyebrow-line">Интерьер</span>
+      <h2>Пространство<br />для долгого ужина</h2>
+      <p>
+        Мы сделали зал камерным и тёплым: приглушённый свет, натуральные материалы, открытая кухня и столы, за которыми хочется задержаться после десерта.
+      </p>
+
+      <ul class="interior-accents" role="list">
+        <li>
+          <span class="accent-icon" aria-hidden="true">—</span>
+          <span>Приглушённый свет</span>
+        </li>
+        <li>
+          <span class="accent-icon" aria-hidden="true">—</span>
+          <span>Открытая кухня</span>
+        </li>
+        <li>
+          <span class="accent-icon" aria-hidden="true">—</span>
+          <span>Винные полки</span>
+        </li>
+      </ul>
+
+      <Button href="#reservation" variant="accent" size="lg">Забронировать стол</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .interior-section {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg-warm);
+  }
+
+  :global([data-theme="dark"]) .interior-section {
+    background: var(--color-surface);
+  }
+
+  .interior-decor-board {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    left: clamp(1rem, 4vw, 4rem);
+    bottom: 8%;
+    width: clamp(5rem, 7.5vw, 7rem);
+    height: auto;
+    object-fit: contain;
+    opacity: 0.30;
+    filter: saturate(0.82) contrast(1.0) drop-shadow(0 1.2rem 2rem rgba(25,23,21,0.22));
+    transform: rotate(-12deg);
+    animation: board-float 14s ease-in-out infinite;
+  }
+
+  :global([data-theme="dark"]) .interior-decor-board {
+    opacity: 0.22;
+    filter: saturate(0.65) brightness(0.78) contrast(1.04) drop-shadow(0 0 1rem rgba(246,239,228,0.08)) drop-shadow(0 1rem 2rem rgba(0,0,0,0.36));
+  }
+
+  @keyframes board-float {
+    0%, 100% { translate: 0 0; rotate: -12deg; }
+    50% { translate: 0.3rem -0.8rem; rotate: -10deg; }
+  }
+
+  .interior-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+  }
+
+  .interior-gallery {
+    display: grid;
+    grid-template-columns: minmax(0, 1.62fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: clamp(0.7rem, 1.5vw, 1.2rem);
+  }
+
+  .gallery-main {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    aspect-ratio: 0.72;
+  }
+
+  .gallery-detail {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 0.4rem;
+    aspect-ratio: 1.1;
+  }
+
+  .gallery-detail-a { grid-column: 2; grid-row: 1; }
+  .gallery-detail-b { grid-column: 2; grid-row: 2; }
+
+  .gallery-main img,
+  .gallery-detail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 700ms var(--ease-out);
+  }
+
+  .gallery-main:hover img,
+  .gallery-detail:hover img {
+    transform: scale(1.03);
+  }
+
+  .interior-copy {
+    padding-left: clamp(0rem, 2vw, 2rem);
+  }
+
+  .interior-copy .eyebrow-line {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin: 0 0 1.2rem;
+    font-size: clamp(2.6rem, 4.8vw, 4.4rem);
+    line-height: 1.04;
+  }
+
+  .interior-copy > p {
+    max-width: 36rem;
+    margin: 0 0 2rem;
+    color: var(--color-fg-muted);
+    font-size: clamp(1rem, 1.7vw, 1.18rem);
+    line-height: 1.65;
+  }
+
+  .interior-accents {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .interior-accents li {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.95rem;
+    color: var(--color-fg-muted);
+  }
+
+  .accent-icon {
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 860px) {
+    .interior-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .interior-copy { padding-left: 0; }
+    .gallery-main { aspect-ratio: 1.1; }
+    .gallery-detail { aspect-ratio: 1.3; }
+    .interior-decor-board { display: none; }
+  }
+
+  @media (max-width: 540px) {
+    .interior-gallery {
+      grid-template-columns: 1fr;
+    }
+    .gallery-main { grid-row: 1; aspect-ratio: 1.2; }
+    .gallery-detail-a { grid-column: 1; grid-row: 2; }
+    .gallery-detail-b { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .interior-decor-board { animation: none; }
+    .gallery-main img,
+    .gallery-detail img { transition: none; }
+  }
+</style>

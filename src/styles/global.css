@@ -264,8 +264,9 @@
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
   filter: blur(0);
-  clip-path: inset(0 0% 0 0);
 }
+
+[data-reveal="clip"].is-visible { clip-path: inset(0); }
 
 html:not(.js) [data-reveal],
 html:not(.js) .reveal {
@@ -305,10 +306,41 @@ html:not(.js) .reveal {
   will-change: transform;
 }
 
+[data-scroll-dish] {
+  --dish-motion-y: 0px;
+  --dish-motion-rotate: 0deg;
+  --dish-motion-scale: 1;
+  transform: translate3d(0, var(--dish-motion-y), 0) rotate(var(--dish-motion-rotate)) scale(var(--dish-motion-scale));
+  transition: transform 120ms linear;
+  transform-origin: center;
+  will-change: transform;
+}
+
+[data-parallax] {
+  --parallax-y: 0px;
+  --parallax-rotate: 0deg;
+  will-change: transform;
+}
+
+[data-scroll-text] {
+  --scroll-word-rest: var(--color-fg-subtle);
+  --scroll-word-active: var(--color-fg);
+  --scroll-word-rest-opacity: 0.48;
+  --scroll-word-blur: 2.2px;
+}
+
+[data-theme="dark"] [data-scroll-text] {
+  --scroll-word-rest: rgba(246, 239, 228, 0.44);
+  --scroll-word-active: rgba(246, 239, 228, 0.94);
+  --scroll-word-rest-opacity: 0.34;
+  --scroll-word-blur: 3.8px;
+}
+
 [data-scroll-text] [data-word] {
   display: inline-block;
-  opacity: 0.1;
-  filter: blur(4.5px);
+  color: var(--scroll-word-rest);
+  opacity: var(--scroll-word-rest-opacity);
+  filter: blur(var(--scroll-word-blur));
   transition: opacity 140ms linear, filter 140ms linear, color 140ms linear;
 }
 
@@ -347,6 +379,12 @@ html:not(.js) .reveal {
   [data-scroll-text] [data-word] {
     opacity: 1 !important;
     filter: none !important;
+    color: var(--scroll-word-active) !important;
+  }
+
+  [data-parallax] {
+    --parallax-y: 0px !important;
+    --parallax-rotate: 0deg !important;
   }
 
   ::view-transition-old(root),

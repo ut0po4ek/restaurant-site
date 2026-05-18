@@ -1,0 +1,328 @@
+---
+const ingredients = [
+  {
+    id: 'pasta',
+    title: 'Свежая паста',
+    body: 'Тесто замешиваем ежедневно, чтобы сохранить плотность и мягкую упругость.',
+    decor: '/assets/decor/realistic/rosemary.png',
+    decorClass: 'decor-rosemary',
+    decorAlt: '',
+  },
+  {
+    id: 'tomatoes',
+    title: 'Сезонные томаты',
+    body: 'Берём сладкие мясистые томаты для соусов, брускетт и салатов.',
+    decor: '/assets/decor/realistic/tomatoes-vine.png',
+    decorClass: 'decor-tomatoes',
+    decorAlt: '',
+  },
+  {
+    id: 'herbs',
+    title: 'Травы и масло',
+    body: 'Розмарин, тимьян и хорошее масло собирают вкус блюда в одну линию.',
+    decor: '/assets/decor/realistic/basil-leaves.png',
+    decorClass: 'decor-basil',
+    decorAlt: '',
+  },
+  {
+    id: 'fire',
+    title: 'Открытый огонь',
+    body: 'Гриль добавляет мясу, рыбе и овощам дым, корочку и глубину.',
+    decor: '/assets/decor/realistic/red-pepper-slices.png',
+    decorClass: 'decor-pepper',
+    decorAlt: '',
+  },
+  {
+    id: 'cheese',
+    title: 'Сыры',
+    body: 'Пармезан, страчателла и мягкие сыры добавляют блюдам солёность и сливочность.',
+    decor: '/assets/decor/realistic/gorgonzola-cheese.png',
+    decorClass: 'decor-cheese',
+    decorAlt: '',
+  },
+  {
+    id: 'salt',
+    title: 'Соль и перец',
+    body: 'Последние акценты, которые делают вкус точнее.',
+    decor: '/assets/decor/realistic/spice-spoons.png',
+    decorClass: 'decor-spice',
+    decorAlt: '',
+  },
+];
+---
+
+<section id="ingredients" class="ingredients-section section-padding">
+  <div class="container-site">
+    <div class="ingredients-head">
+      <span class="eyebrow-line" data-reveal="up">Кухня</span>
+      <h2 data-reveal="up" data-reveal-delay="120">Ингредиенты,<br />которые держат вкус</h2>
+      <p class="ingredients-lead" data-reveal="up" data-reveal-delay="230">
+        Каждое блюдо начинается с продукта. Мы выбираем сезонное, свежее и точное.
+      </p>
+    </div>
+
+    <ul class="ingredients-grid" role="list">
+      {ingredients.map((item, index) => (
+        <li
+          class="ingredient-card"
+          data-reveal="up"
+          data-reveal-delay={String(60 + index * 90)}
+        >
+          <img
+            class={`ingredient-decor ${item.decorClass}`}
+            src={item.decor}
+            alt={item.decorAlt}
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <div class="ingredient-content">
+            <span class="ingredient-num">0{index + 1}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ingredients-section {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  :global([data-theme="dark"]) .ingredients-section {
+    background: var(--color-bg);
+  }
+
+  .ingredients-head {
+    max-width: 52rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .ingredients-head .eyebrow-line {
+    display: block;
+    margin-bottom: 0.9rem;
+  }
+
+  .ingredients-head h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    line-height: 1.02;
+  }
+
+  .ingredients-lead {
+    max-width: 40rem;
+    margin: 0;
+    color: var(--color-fg-muted);
+    font-size: clamp(1rem, 1.8vw, 1.22rem);
+    line-height: 1.6;
+  }
+
+  .ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.2rem, 3vw, 2rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ingredient-card {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.4rem, 3vw, 2rem) clamp(1.2rem, 2.5vw, 1.8rem);
+    background: var(--color-bg-warm);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    transition: border-color 260ms ease, box-shadow 260ms ease;
+  }
+
+  :global([data-theme="dark"]) .ingredient-card {
+    background: var(--color-surface);
+  }
+
+  .ingredient-card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 52%, transparent);
+    box-shadow: 0 0.5rem 2.5rem rgba(0,0,0,0.08);
+  }
+
+  :global([data-theme="dark"]) .ingredient-card:hover {
+    box-shadow: 0 0.5rem 2.5rem rgba(0,0,0,0.24);
+  }
+
+  .ingredient-decor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    height: auto;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 600ms ease, transform 600ms var(--ease-out);
+  }
+
+  .ingredient-card.is-visible .ingredient-decor {
+    opacity: 1;
+  }
+
+  :global([data-theme="dark"]) .ingredient-decor {
+    filter: saturate(0.8) brightness(0.78) contrast(1.04) drop-shadow(0 0 0.8rem rgba(246,239,228,0.06));
+  }
+
+  /* Уникальные анимации и позиции для каждого decor */
+  .decor-rosemary {
+    right: -0.5rem;
+    top: -1.2rem;
+    width: clamp(4rem, 7vw, 5.5rem);
+    transform: rotate(25deg) translateY(0.5rem);
+    animation: float-rosemary 9s ease-in-out infinite;
+    opacity: 0.34;
+  }
+
+  .ingredient-card.is-visible .decor-rosemary { opacity: 0.34; }
+
+  .decor-tomatoes {
+    right: -0.8rem;
+    top: -0.5rem;
+    width: clamp(4.5rem, 7.5vw, 6rem);
+    transform: rotate(-8deg);
+    animation: float-tomatoes 12s ease-in-out infinite;
+    opacity: 0.38;
+  }
+
+  .ingredient-card.is-visible .decor-tomatoes { opacity: 0.38; }
+
+  .decor-basil {
+    right: -0.2rem;
+    top: -0.8rem;
+    width: clamp(3.5rem, 6vw, 5rem);
+    transform: rotate(18deg);
+    animation: float-basil 8s ease-in-out infinite;
+    opacity: 0.36;
+  }
+
+  .ingredient-card.is-visible .decor-basil { opacity: 0.36; }
+
+  .decor-pepper {
+    right: -0.4rem;
+    top: -1rem;
+    width: clamp(3rem, 5vw, 4.5rem);
+    transform: rotate(-15deg);
+    animation: float-pepper 10s ease-in-out infinite;
+    opacity: 0.42;
+  }
+
+  .ingredient-card.is-visible .decor-pepper { opacity: 0.42; }
+
+  .decor-cheese {
+    right: -0.6rem;
+    bottom: -0.5rem;
+    top: auto;
+    width: clamp(4rem, 6.5vw, 5.5rem);
+    transform: rotate(6deg);
+    animation: float-cheese 13s ease-in-out infinite;
+    opacity: 0.30;
+  }
+
+  .ingredient-card.is-visible .decor-cheese { opacity: 0.30; }
+
+  .decor-spice {
+    right: -0.3rem;
+    top: -0.6rem;
+    width: clamp(4.5rem, 7vw, 5.8rem);
+    transform: rotate(-20deg);
+    animation: float-spice 11s ease-in-out infinite;
+    opacity: 0.34;
+  }
+
+  .ingredient-card.is-visible .decor-spice { opacity: 0.34; }
+
+  /* Уникальные анимации */
+  @keyframes float-rosemary {
+    0%, 100% { translate: 0 0; rotate: 25deg; }
+    40% { translate: -0.2rem -0.6rem; rotate: 22deg; }
+    70% { translate: 0.15rem -0.3rem; rotate: 27deg; }
+  }
+
+  @keyframes float-tomatoes {
+    0%, 100% { translate: 0 0; rotate: -8deg; }
+    50% { translate: -0.3rem -0.8rem; rotate: -5deg; }
+  }
+
+  @keyframes float-basil {
+    0%, 100% { translate: 0 0; rotate: 18deg; }
+    35% { translate: 0.2rem -0.5rem; rotate: 15deg; }
+    65% { translate: -0.1rem -0.8rem; rotate: 21deg; }
+  }
+
+  @keyframes float-pepper {
+    0%, 100% { translate: 0 0; rotate: -15deg; }
+    45% { translate: 0.1rem -1rem; rotate: -11deg; }
+  }
+
+  @keyframes float-cheese {
+    0%, 100% { translate: 0 0; rotate: 6deg; }
+    55% { translate: -0.2rem 0.6rem; rotate: 3deg; }
+  }
+
+  @keyframes float-spice {
+    0%, 100% { translate: 0 0; rotate: -20deg; }
+    30% { translate: 0.3rem -0.4rem; rotate: -17deg; }
+    70% { translate: -0.1rem -0.7rem; rotate: -22deg; }
+  }
+
+  /* Hover: decor слегка смещается */
+  .ingredient-card:hover .decor-rosemary { transform: rotate(22deg) translate(-0.2rem, -0.5rem); }
+  .ingredient-card:hover .decor-tomatoes { transform: rotate(-5deg) translate(-0.3rem, -0.4rem); }
+  .ingredient-card:hover .decor-basil { transform: rotate(15deg) translate(0.1rem, -0.6rem); }
+  .ingredient-card:hover .decor-pepper { transform: rotate(-11deg) translate(0.2rem, -0.8rem); }
+  .ingredient-card:hover .decor-cheese { transform: rotate(3deg) translate(-0.2rem, 0.3rem); }
+  .ingredient-card:hover .decor-spice { transform: rotate(-17deg) translate(0.2rem, -0.5rem); }
+
+  .ingredient-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ingredient-num {
+    display: block;
+    margin-bottom: 0.7rem;
+    color: var(--color-accent);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  h3 {
+    margin: 0 0 0.6rem;
+    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+    line-height: 1.1;
+  }
+
+  .ingredient-content p {
+    margin: 0;
+    color: var(--color-fg-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 22ch;
+  }
+
+  @media (max-width: 860px) {
+    .ingredients-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 540px) {
+    .ingredients-grid { grid-template-columns: 1fr; }
+    .ingredient-decor { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ingredient-decor {
+      animation: none;
+      transition: opacity 300ms ease;
+    }
+    .ingredient-card:hover .ingredient-decor { transform: none; }
+  }
+</style>
