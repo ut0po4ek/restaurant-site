@@ -1,20 +1,23 @@
----
+---import { Image } from 'astro:assets';
 import Button from '../ui/Button.astro';
+import heroImg from '../../assets/photos/home-hero-restaurant.jpg';
+import wineImg from '../../assets/photos/menu-wine.jpg';
+import tomatoDecor from '../../assets/decor/realistic/tomatoes-vine.png';
 ---
 
 <section id="hero" class="hero-restaurant">
   <div class="hero-media">
-    <img
-      src="/assets/photos/home-hero-restaurant.jpg"
+    <Image
+      src={heroImg}
       alt="Теплый зал итальянского ресторана с сервированными столами"
       loading="eager"
       fetchpriority="high"
     />
   </div>
   <div class="hero-shade" aria-hidden="true"></div>
-  <img
+  <Image
     class="hero-tomato-decor"
-    src="/assets/decor/realistic/tomatoes-vine.png"
+    src={tomatoDecor}
     alt=""
     aria-hidden="true"
     loading="eager"
@@ -45,8 +48,8 @@ import Button from '../ui/Button.astro';
           data-parallax-speed="0.055"
           data-parallax-rotate="2.4"
         >
-          <img
-            src="/assets/photos/menu-wine.jpg"
+          <Image
+            src={wineImg}
             alt="Бокалы красного вина за ресторанным столом"
             loading="eager"
           />
