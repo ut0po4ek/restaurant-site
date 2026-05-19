@@ -1,11 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import { signatureDishes } from '../../data/menu';
+import tomatoDecor from '../../assets/decor/realistic/tomatoes-vine.png';
 ---
 
 <section class="signature-dishes section-padding">
-  <img
+  <Image
     class="signature-tomato-decor"
-    src="/assets/decor/realistic/tomatoes-vine.png"
+    src={tomatoDecor}
     alt=""
     aria-hidden="true"
     loading="lazy"
@@ -24,7 +26,7 @@ import { signatureDishes } from '../../data/menu';
         <article class="dish-card" data-reveal="up" data-reveal-delay={String(150 + index * 120)}>
           <div class="dish-visual" data-scroll-rotate={String(10 + index * 3)} data-scroll-direction={index % 2 ? 'reverse' : 'normal'}>
             <span class="dish-shadow"></span>
-            <img class="dish-plate" src={dish.image} alt={dish.alt} loading="lazy" />
+            <Image class="dish-plate" src={dish.image} alt={dish.alt} loading="lazy" />
           </div>
           <div class="dish-copy">
             <img class="dish-decor decor-rosemary" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="lazy" />
