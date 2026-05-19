@@ -1,12 +1,39 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import rosemaryPng from '../../assets/decor/realistic/rosemary.png';
+import tomatoesVine from '../../assets/decor/realistic/tomatoes-vine.png';
+import avocadoHalf from '../../assets/decor/realistic/avocado-half.png';
+import lettuceLeaves from '../../assets/decor/realistic/lettuce-leaves.png';
+import basilLeaves from '../../assets/decor/realistic/basil-leaves.png';
+import gorgonzolaCheese from '../../assets/decor/realistic/gorgonzola-cheese.png';
+import champignonMushrooms from '../../assets/decor/realistic/champignon-mushrooms.png';
+import eggplant from '../../assets/decor/realistic/eggplant.png';
+import chickenBreast from '../../assets/decor/realistic/chicken-breast.png';
+import potatoPeeled from '../../assets/decor/realistic/potato-peeled.png';
+import spiceMounds from '../../assets/decor/realistic/spice-mounds.png';
+import greenPeas from '../../assets/decor/realistic/green-peas.png';
+import redPepperSlices from '../../assets/decor/realistic/red-pepper-slices.png';
+import spiceSpoons from '../../assets/decor/realistic/spice-spoons.png';
+
 const ITEMS_PER_GROUP = 4;
 
-const layers = [
+const layers: {
+  id: string;
+  label: string;
+  src: ImageMetadata;
+  fromRotate: string;
+  fromScale: string;
+  toRotate: string;
+  exitRotate: string;
+  exitScale: string;
+  width: string;
+}[] = [
   /* ── Group 0 ── */
   {
     id: 'rosemary',
     label: 'Розмарин и тимьян',
-    src: '/assets/decor/realistic/rosemary.png',
+    src: rosemaryPng,
     fromRotate: '52deg',  fromScale: '0.38', toRotate: '-10deg',
     exitRotate: '-38deg', exitScale:  '0.30',
     width: 'clamp(7rem, 10.5vw, 15.5rem)',
@@ -14,7 +41,7 @@ const layers = [
   {
     id: 'tomatoes',
     label: 'Сладкие томаты',
-    src: '/assets/decor/realistic/tomatoes-vine.png',
+    src: tomatoesVine,
     fromRotate: '-44deg', fromScale: '0.34', toRotate: '9deg',
     exitRotate: '32deg',  exitScale:  '0.28',
     width: 'clamp(9rem, 13.5vw, 20rem)',
@@ -22,7 +49,7 @@ const layers = [
   {
     id: 'avocado',
     label: 'Спелый авокадо',
-    src: '/assets/decor/realistic/avocado-half.png',
+    src: avocadoHalf,
     fromRotate: '-48deg', fromScale: '0.36', toRotate: '14deg',
     exitRotate: '40deg',  exitScale:  '0.32',
     width: 'clamp(7rem, 10.5vw, 15.5rem)',
@@ -30,7 +57,7 @@ const layers = [
   {
     id: 'lettuce',
     label: 'Листья салата',
-    src: '/assets/decor/realistic/lettuce-leaves.png',
+    src: lettuceLeaves,
     fromRotate: '42deg',  fromScale: '0.34', toRotate: '-12deg',
     exitRotate: '-30deg', exitScale:  '0.30',
     width: 'clamp(9rem, 13.5vw, 20rem)',
@@ -39,7 +66,7 @@ const layers = [
   {
     id: 'basil',
     label: 'Свежий базилик',
-    src: '/assets/decor/realistic/basil-leaves.png',
+    src: basilLeaves,
     fromRotate: '-50deg', fromScale: '0.36', toRotate: '18deg',
     exitRotate: '36deg',  exitScale:  '0.32',
     width: 'clamp(8rem, 12vw, 18rem)',
@@ -47,7 +74,7 @@ const layers = [
   {
     id: 'cheese',
     label: 'Выдержанный сыр',
-    src: '/assets/decor/realistic/gorgonzola-cheese.png',
+    src: gorgonzolaCheese,
     fromRotate: '46deg',  fromScale: '0.34', toRotate: '-16deg',
     exitRotate: '-34deg', exitScale:  '0.28',
     width: 'clamp(8.5rem, 12.5vw, 19rem)',
@@ -55,7 +82,7 @@ const layers = [
   {
     id: 'mushrooms',
     label: 'Шампиньоны',
-    src: '/assets/decor/realistic/champignon-mushrooms.png',
+    src: champignonMushrooms,
     fromRotate: '-54deg', fromScale: '0.32', toRotate: '12deg',
     exitRotate: '44deg',  exitScale:  '0.30',
     width: 'clamp(9rem, 13.5vw, 20rem)',
@@ -63,7 +90,7 @@ const layers = [
   {
     id: 'eggplant',
     label: 'Молодой баклажан',
-    src: '/assets/decor/realistic/eggplant.png',
+    src: eggplant,
     fromRotate: '50deg',  fromScale: '0.36', toRotate: '-8deg',
     exitRotate: '-38deg', exitScale:  '0.32',
     width: 'clamp(7.5rem, 11vw, 16.5rem)',
@@ -72,7 +99,7 @@ const layers = [
   {
     id: 'chicken',
     label: 'Куриное филе',
-    src: '/assets/decor/realistic/chicken-breast.png',
+    src: chickenBreast,
     fromRotate: '-46deg', fromScale: '0.34', toRotate: '10deg',
     exitRotate: '34deg',  exitScale:  '0.28',
     width: 'clamp(9.5rem, 14.5vw, 21rem)',
@@ -80,7 +107,7 @@ const layers = [
   {
     id: 'potato',
     label: 'Молодой картофель',
-    src: '/assets/decor/realistic/potato-peeled.png',
+    src: potatoPeeled,
     fromRotate: '56deg',  fromScale: '0.32', toRotate: '-18deg',
     exitRotate: '-42deg', exitScale:  '0.30',
     width: 'clamp(7rem, 10.5vw, 15.5rem)',
@@ -88,7 +115,7 @@ const layers = [
   {
     id: 'spice-mounds',
     label: 'Пряные специи',
-    src: '/assets/decor/realistic/spice-mounds.png',
+    src: spiceMounds,
     fromRotate: '-42deg', fromScale: '0.36', toRotate: '8deg',
     exitRotate: '36deg',  exitScale:  '0.32',
     width: 'clamp(9rem, 13.5vw, 20rem)',
@@ -96,7 +123,7 @@ const layers = [
   {
     id: 'peas',
     label: 'Зелёный горошек',
-    src: '/assets/decor/realistic/green-peas.png',
+    src: greenPeas,
     fromRotate: '48deg',  fromScale: '0.34', toRotate: '-14deg',
     exitRotate: '-36deg', exitScale:  '0.28',
     width: 'clamp(8.5rem, 12.5vw, 19rem)',
@@ -105,7 +132,7 @@ const layers = [
   {
     id: 'pepper',
     label: 'Острый перец',
-    src: '/assets/decor/realistic/red-pepper-slices.png',
+    src: redPepperSlices,
     fromRotate: '58deg',  fromScale: '0.30', toRotate: '-22deg',
     exitRotate: '-44deg', exitScale:  '0.30',
     width: 'clamp(5.5rem, 8.5vw, 12rem)',
@@ -113,7 +140,7 @@ const layers = [
   {
     id: 'spice',
     label: 'Соль и специи',
-    src: '/assets/decor/realistic/spice-spoons.png',
+    src: spiceSpoons,
     fromRotate: '-52deg', fromScale: '0.32', toRotate: '22deg',
     exitRotate: '40deg',  exitScale:  '0.32',
     width: 'clamp(7rem, 10.5vw, 15rem)',
@@ -170,7 +197,7 @@ function labelSide(i: number) {
             data-kitchen-group={Math.floor(i / ITEMS_PER_GROUP)}
             data-kitchen-last-group={Math.floor(i / ITEMS_PER_GROUP) === totalGroups - 1 ? 'true' : 'false'}
           >
-            <img src={layer.src} alt="" aria-hidden="true" loading="lazy" />
+            <Image src={layer.src} alt="" aria-hidden="true" loading="lazy" style={`width: var(--layer-width)`} />
             <span class={`layer-label label-${labelSide(i % ITEMS_PER_GROUP)}`}>{layer.label}</span>
           </div>
         ))}
