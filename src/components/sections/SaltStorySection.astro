@@ -1,5 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import ScrollTextReveal from './ScrollTextReveal.astro';
+import saladImg from '../../assets/photos/salt-salad.jpg';
+import steakImg from '../../assets/photos/salt-steak.jpg';
+import dessertImg from '../../assets/photos/salt-dessert.jpg';
 ---
 
 <section id="atmosphere" class="salt-story section-padding" data-salt-progress>
@@ -16,9 +20,9 @@ import ScrollTextReveal from './ScrollTextReveal.astro';
       </div>
     </div>
     <div class="salt-plates" aria-label="Блюда на темном фоне">
-      <img class="plate plate-one" data-scroll-rotate="14" src="/assets/photos/salt-salad.jpg" alt="Салат на круглой тарелке" loading="lazy" />
-      <img class="plate plate-two" data-scroll-rotate="16" data-scroll-direction="reverse" src="/assets/photos/salt-steak.jpg" alt="Стейк с овощами на тарелке" loading="lazy" />
-      <img class="plate plate-three" data-scroll-rotate="12" src="/assets/photos/salt-dessert.jpg" alt="Десерт с ягодами на тарелке" loading="lazy" />
+      <Image class="plate plate-one" data-scroll-rotate="14" src={saladImg} alt="Салат на круглой тарелке" loading="lazy" />
+      <Image class="plate plate-two" data-scroll-rotate="16" data-scroll-direction="reverse" src={steakImg} alt="Стейк с овощами на тарелке" loading="lazy" />
+      <Image class="plate plate-three" data-scroll-rotate="12" src={dessertImg} alt="Десерт с ягодами на тарелке" loading="lazy" />
     </div>
   </div>
 </section>
