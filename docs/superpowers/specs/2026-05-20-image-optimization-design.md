@@ -38,9 +38,9 @@ Components affected:
 - `src/components/sections/AtmosphereEvents.astro`
 - `src/components/sections/InteriorSection.astro`
 - `src/components/sections/MenuSection.astro` (category photos only; SVG decor stays as `<img>`)
-- `src/components/sections/MenuPreview.astro` (SVG decor stays as `<img>`)
+- `src/components/sections/MenuPreview.astro` (PNG decor: basil-leaves, spice-spoons → Image; SVG rosemary stays as `<img>`)
 - `src/components/sections/SignatureDishes.astro`
-- `src/components/sections/KitchenSection.astro`
+- `src/components/sections/KitchenSection.astro` — 14 PNG items in internal `layers` array with `src: string`; change to `src: ImageMetadata`, import all 14 PNGs at top of file, replace `<img src={layer.src}>` with `<Image src={layer.src} alt="" aria-hidden="true" loading="lazy" />`; CSS `width: var(--layer-width)` style attribute must remain
 - `src/components/sections/ReservationSection.astro` (PNG decor)
 - `src/pages/menu.astro` (menu hero photo)
 
