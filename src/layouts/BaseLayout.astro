@@ -8,6 +8,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   canonical?: string;
+  jsonLd?: object | object[];
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   description = siteConfig.description,
   ogImage = siteConfig.seo.ogImage,
   canonical = Astro.url.href,
+  jsonLd,
 } = Astro.props;
 ---
 
@@ -61,8 +63,14 @@ const {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
+    <!-- Structured Data -->
+    {jsonLd && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
 
     <!-- Preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
