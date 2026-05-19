@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import Button from '../ui/Button.astro';
 import { menuCategories } from '../../data/menu';
+import basilDecor from '../../assets/decor/realistic/basil-leaves.png';
+import spiceDecor from '../../assets/decor/realistic/spice-spoons.png';
 
 const previewCategories = menuCategories.slice(0, 4).map((category) => ({
   ...category,
@@ -10,8 +13,8 @@ const previewCategories = menuCategories.slice(0, 4).map((category) => ({
 ---
 
 <section id="menu-preview" class="menu-preview section-padding">
-  <img class="menu-preview-decor decor-real-herb" src="/assets/decor/realistic/basil-leaves.png" alt="" aria-hidden="true" loading="lazy" />
-  <img class="menu-preview-decor decor-real-spice" src="/assets/decor/realistic/spice-spoons.png" alt="" aria-hidden="true" loading="lazy" />
+  <Image class="menu-preview-decor decor-real-herb" src={basilDecor} alt="" aria-hidden="true" loading="lazy" />
+  <Image class="menu-preview-decor decor-real-spice" src={spiceDecor} alt="" aria-hidden="true" loading="lazy" />
   <div class="container-site">
     <div class="menu-head">
       <img class="menu-head-herb" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="lazy" />
