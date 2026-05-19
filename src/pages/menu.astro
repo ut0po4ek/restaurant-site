@@ -5,6 +5,9 @@ import Footer from '../components/layout/Footer.astro';
 import Button from '../components/ui/Button.astro';
 import MenuSection from '../components/sections/MenuSection.astro';
 import { menuCategories } from '../data/menu';
+import { Image } from 'astro:assets';
+import menuHeroImg from '../assets/photos/menu-hero-ingredients.jpg';
+import spiceDecor from '../assets/decor/realistic/spice-spoons.png';
 ---
 
 <BaseLayout title="Меню — PICCOLINO" description="Меню ресторана PICCOLINO: закуски, паста, основные блюда, десерты и вино.">
@@ -13,7 +16,7 @@ import { menuCategories } from '../data/menu';
     <section id="hero" class="menu-hero">
       <div class="menu-salt" aria-hidden="true"></div>
       <img class="menu-object menu-object-cutlery" src="/assets/decor/cutlery.svg" alt="" aria-hidden="true" loading="eager" data-parallax data-parallax-speed="0.045" data-parallax-rotate="2.2" />
-      <img class="menu-object menu-object-real menu-object-spice" src="/assets/decor/realistic/spice-spoons.png" alt="" aria-hidden="true" loading="eager" data-parallax data-parallax-speed="0.035" data-parallax-rotate="-2" />
+      <Image class="menu-object menu-object-real menu-object-spice" src={spiceDecor} alt="" aria-hidden="true" loading="eager" data-parallax data-parallax-speed="0.035" data-parallax-rotate="-2" />
       <div class="container-site menu-hero-inner">
         <div class="menu-hero-copy">
           <img class="menu-copy-herb" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="eager" data-parallax data-parallax-speed="0.03" data-parallax-rotate="1.8" />
@@ -28,7 +31,7 @@ import { menuCategories } from '../data/menu';
           </div>
         </div>
         <div class="menu-hero-plate" data-scroll-dish data-motion-rotate="7" data-reveal="scale">
-          <img src="/assets/photos/menu-hero-ingredients.jpg" alt="Итальянские ингредиенты для меню ресторана PICCOLINO" />
+          <Image src={menuHeroImg} alt="Итальянские ингредиенты для меню ресторана PICCOLINO" />
         </div>
       </div>
     </section>
