@@ -11,9 +11,33 @@ import InteriorSection from '../components/sections/InteriorSection.astro';
 import MenuPreview from '../components/sections/MenuPreview.astro';
 import AtmosphereEvents from '../components/sections/AtmosphereEvents.astro';
 import ReservationSection from '../components/sections/ReservationSection.astro';
+import { siteConfig } from '../config/site';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": siteConfig.name,
+  "description": siteConfig.description,
+  "url": siteConfig.url,
+  "image": `${siteConfig.url}/og-image.jpg`,
+  "telephone": siteConfig.contacts.phone,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": siteConfig.contacts.address,
+    "addressLocality": "Москва",
+    "addressCountry": "RU"
+  },
+  "servesCuisine": "Italian",
+  "priceRange": "₽₽₽",
+  "openingHours": "Mo-Su 12:00-00:00"
+};
 ---
 
-<BaseLayout>
+<BaseLayout
+  title="PICCOLINO — итальянский ресторан авторской кухни"
+  description="Итальянский ресторан PICCOLINO: паста ручной работы, открытый огонь, винная карта, камерный интерьер и бронирование столов."
+  jsonLd={jsonLd}
+>
   <Header />
   <main>
     <HeroRestaurant />
