@@ -1,3 +1,14 @@
+import type { ImageMetadata } from 'astro';
+
+import menuStartersImg from '../assets/photos/menu-starters.jpg';
+import menuPastaImg from '../assets/photos/menu-pasta.jpg';
+import menuMainsImg from '../assets/photos/menu-mains.jpg';
+import menuDessertsImg from '../assets/photos/menu-desserts.jpg';
+import menuWineImg from '../assets/photos/menu-wine.jpg';
+import signatureTagliatelle from '../assets/photos/signature-tagliatelle.jpg';
+import signatureFish from '../assets/photos/signature-fish.jpg';
+import signaturePannaCotta from '../assets/photos/signature-panna-cotta.jpg';
+
 export type MenuItem = {
   name: string;
   description: string;
@@ -20,7 +31,7 @@ export type MenuCategory = {
   id: string;
   title: string;
   subtitle: string;
-  image: string;
+  image: ImageMetadata;
   imageAlt: string;
   items: MenuItem[];
 };
@@ -30,7 +41,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'starters',
     title: 'Закуски',
     subtitle: 'Свежие травы, оливковое масло и начало вечера без спешки.',
-    image: '/assets/photos/menu-starters.jpg',
+    image: menuStartersImg,
     imageAlt: 'Итальянская закуска на темной тарелке',
     items: [
       { name: 'Брускетта с томатами и базиликом', description: 'Сладкие томаты, чеснок, хрустящий хлеб и масло первого отжима.', price: '590 ₽', details: { weight: '180 г', calories: '360 ккал', protein: '9 г', fat: '16 г', carbs: '42 г', allergens: 'глютен', composition: 'чиабатта, томаты, базилик, чеснок, оливковое масло', winePairing: 'Pinot Grigio Alto Adige', cookTime: '10 минут', tags: ['vegetarian'] } },
@@ -43,7 +54,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'pasta',
     title: 'Паста',
     subtitle: 'Домашнее тесто, плотные соусы и классические римские сочетания.',
-    image: '/assets/photos/menu-pasta.jpg',
+    image: menuPastaImg,
     imageAlt: 'Паста с томатным соусом и пармезаном',
     items: [
       { name: 'Паста качо-э-пепе', description: 'Пекорино, черный перец и шелковистая эмульсия на горячей пасте.', price: '850 ₽', details: { weight: '270 г', calories: '620 ккал', protein: '23 г', fat: '25 г', carbs: '74 г', allergens: 'глютен, молочные продукты', composition: 'домашняя паста, пекорино, черный перец, сливочное масло', winePairing: 'Frascati Superiore', cookTime: '16 минут', tags: ['vegetarian'] } },
@@ -56,7 +67,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'mains',
     title: 'Основные блюда',
     subtitle: 'Открытый огонь, травы и спокойная уверенность простых продуктов.',
-    image: '/assets/photos/menu-mains.jpg',
+    image: menuMainsImg,
     imageAlt: 'Стейк с овощами на темной поверхности',
     items: [
       { name: 'Стейк с розмарином', description: 'Говядина на гриле, печеный чеснок, томаты и соус из красного вина.', price: '1690 ₽', details: { weight: '340 г', calories: '780 ккал', protein: '52 г', fat: '51 г', carbs: '22 г', allergens: 'молочные продукты', composition: 'говядина, розмарин, печеный чеснок, томаты, винный соус', winePairing: 'Barolo', cookTime: '24 минуты', tags: ['grill'] } },
@@ -69,7 +80,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'desserts',
     title: 'Десерты',
     subtitle: 'Финал, который остается мягким, сливочным и немного праздничным.',
-    image: '/assets/photos/menu-desserts.jpg',
+    image: menuDessertsImg,
     imageAlt: 'Итальянский десерт на светлой тарелке',
     items: [
       { name: 'Тирамису', description: 'Маскарпоне, савоярди, эспрессо и горькое какао.', price: '590 ₽', details: { weight: '160 г', calories: '480 ккал', protein: '9 г', fat: '31 г', carbs: '42 г', allergens: 'глютен, яйца, молочные продукты', composition: 'маскарпоне, савоярди, эспрессо, какао, марсала', winePairing: 'Vin Santo', cookTime: '5 минут', tags: ['classic'] } },
@@ -82,7 +93,7 @@ export const menuCategories: MenuCategory[] = [
     id: 'wine',
     title: 'Вино',
     subtitle: 'Италия по бокалам: от минеральных белых до плотных тосканских красных.',
-    image: '/assets/photos/menu-wine.jpg',
+    image: menuWineImg,
     imageAlt: 'Бутылки вина в темном винном зале',
     items: [
       { name: 'Prosecco Valdobbiadene', description: 'Сухое, свежее, с яблоком и белыми цветами.', price: '690 ₽ / бокал', details: { weight: '150 мл', calories: '120 ккал', protein: '0 г', fat: '0 г', carbs: '4 г', allergens: 'сульфиты', composition: 'глера, регион Венето, сухой стиль', winePairing: 'брускетта, буррата, сорбет', cookTime: 'подача 3 минуты', tags: ['sparkling'] } },
@@ -93,26 +104,26 @@ export const menuCategories: MenuCategory[] = [
   },
 ];
 
-export const signatureDishes = [
+export const signatureDishes: { name: string; note: string; price: string; image: ImageMetadata; alt: string }[] = [
   {
     name: 'Тальятелле с рагу',
     note: 'Медленно томим мясо в красном вине и подаем с домашней пастой.',
     price: '990 ₽',
-    image: '/assets/photos/signature-tagliatelle.jpg',
+    image: signatureTagliatelle,
     alt: 'Тарелка тальятелле с томатным соусом',
   },
   {
     name: 'Сибас с травами',
     note: 'Запекаем целиком, добавляем лимон, тимьян и мягкое оливковое масло.',
     price: '1490 ₽',
-    image: '/assets/photos/signature-fish.jpg',
+    image: signatureFish,
     alt: 'Рыбное блюдо с зеленью на темной тарелке',
   },
   {
     name: 'Панна-котта',
     note: 'Сливочная ваниль, сезонные ягоды и чистый, спокойный финал.',
     price: '540 ₽',
-    image: '/assets/photos/signature-panna-cotta.jpg',
+    image: signaturePannaCotta,
     alt: 'Панна-котта с ягодами',
   },
 ];
