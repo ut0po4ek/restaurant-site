@@ -1,11 +1,16 @@
 ---
+import { Image } from 'astro:assets';
 import Button from '../ui/Button.astro';
+import pizzaBoardDecor from '../../assets/decor/realistic/pizza-board.png';
+import diningRoomImg from '../../assets/photos/about-dining-room.jpg';
+import tableImg from '../../assets/photos/about-table.jpg';
+import wineEveningImg from '../../assets/photos/wine-evening.jpg';
 ---
 
 <section id="interior" class="interior-section section-padding">
-  <img
+  <Image
     class="interior-decor-board"
-    src="/assets/decor/realistic/pizza-board.png"
+    src={pizzaBoardDecor}
     alt=""
     aria-hidden="true"
     loading="lazy"
@@ -17,22 +22,22 @@ import Button from '../ui/Button.astro';
   <div class="container-site interior-inner">
     <div class="interior-gallery" data-reveal="left">
       <figure class="gallery-main">
-        <img
-          src="/assets/photos/about-dining-room.jpg"
+        <Image
+          src={diningRoomImg}
           alt="Тёплый вечерний зал ресторана PICCOLINO с приглушённым светом"
           loading="lazy"
         />
       </figure>
       <figure class="gallery-detail gallery-detail-a">
-        <img
-          src="/assets/photos/about-table.jpg"
+        <Image
+          src={tableImg}
           alt="Сервированный стол с приборами и бокалами"
           loading="lazy"
         />
       </figure>
       <figure class="gallery-detail gallery-detail-b">
-        <img
-          src="/assets/photos/wine-evening.jpg"
+        <Image
+          src={wineEveningImg}
           alt="Бутылки вина на фоне тёплого освещения"
           loading="lazy"
         />
