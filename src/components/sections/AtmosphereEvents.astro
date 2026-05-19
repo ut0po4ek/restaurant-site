@@ -1,15 +1,19 @@
 ---
+import { Image } from 'astro:assets';
 import Button from '../ui/Button.astro';
+import wineEveningImg from '../../assets/photos/wine-evening.jpg';
+import basilDecor from '../../assets/decor/realistic/basil-leaves.png';
+import mushroomDecor from '../../assets/decor/realistic/champignon-mushrooms.png';
 ---
 
 <section id="events" class="events-section section-padding">
   <div class="container-site events-grid">
     <div class="event-image" data-reveal="left">
-      <img src="/assets/photos/wine-evening.jpg" alt="Бутылки вина и камерная атмосфера винного вечера" loading="lazy" />
+      <Image src={wineEveningImg} alt="Бутылки вина и камерная атмосфера винного вечера" loading="lazy" />
     </div>
     <div class="event-copy" data-reveal="right">
-      <img class="event-photo-decor event-decor-basil" src="/assets/decor/realistic/basil-leaves.png" alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.04" data-parallax-rotate="2" />
-      <img class="event-photo-decor event-decor-mushroom" src="/assets/decor/realistic/champignon-mushrooms.png" alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.025" data-parallax-rotate="-1.5" />
+      <Image class="event-photo-decor event-decor-basil" src={basilDecor} alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.04" data-parallax-rotate="2" />
+      <Image class="event-photo-decor event-decor-mushroom" src={mushroomDecor} alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.025" data-parallax-rotate="-1.5" />
       <span class="eyebrow-line">События</span>
       <h2>Винные ужины и камерные встречи</h2>
       <p>
