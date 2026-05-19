@@ -1,5 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import type { MenuCategory } from '../../data/menu';
+import tomatoesVineDecor from '../../assets/decor/realistic/tomatoes-vine.png';
+import spiceSpoonDecor from '../../assets/decor/realistic/spice-spoons.png';
+import rosemaryPngDecor from '../../assets/decor/realistic/rosemary.png';
+import avocadoHalfDecor from '../../assets/decor/realistic/avocado-half.png';
+import spiceMoundsDecor from '../../assets/decor/realistic/spice-mounds.png';
 
 interface Props {
   category: MenuCategory;
@@ -26,22 +32,22 @@ const tagMap: Record<string, { label: string; color: string; bg: string }> = {
 
 // Unique decor image per category — no basil
 const categoryDecorSrc = [
-  '/assets/decor/realistic/tomatoes-vine.png',  // starters
-  '/assets/decor/realistic/spice-spoons.png',   // pasta
-  '/assets/decor/realistic/rosemary.png',       // mains
-  '/assets/decor/realistic/avocado-half.png',   // desserts
-  '/assets/decor/realistic/spice-mounds.png',   // wine
-][index] ?? '/assets/decor/realistic/rosemary.png';
+  tomatoesVineDecor,    // starters
+  spiceSpoonDecor,      // pasta
+  rosemaryPngDecor,     // mains
+  avocadoHalfDecor,     // desserts
+  spiceMoundsDecor,     // wine
+][index] ?? rosemaryPngDecor;
 ---
 
 <section class={`menu-category ${index % 2 ? 'is-reverse' : ''}`} id={category.id}>
   <div class="category-image" data-reveal={index % 2 ? 'right' : 'left'} data-scroll-dish data-motion-direction={index % 2 ? 'reverse' : 'normal'} data-motion-rotate={String(6 + index)}>
-    <img src={category.image} alt={category.imageAlt} loading="lazy" />
+    <Image src={category.image} alt={category.imageAlt} loading="lazy" />
   </div>
 
   <div class="category-copy" data-reveal={index % 2 ? 'left' : 'right'}>
     <img class="category-decor category-decor-herb" src="/assets/decor/rosemary.svg" alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.025" data-parallax-rotate="1.4" />
-    <img class="category-decor category-decor-photo" src={categoryDecorSrc} alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.02" data-parallax-rotate={index % 2 ? '-1.2' : '1.2'} />
+    <Image class="category-decor category-decor-photo" src={categoryDecorSrc} alt="" aria-hidden="true" loading="lazy" data-parallax data-parallax-speed="0.02" data-parallax-rotate={index % 2 ? '-1.2' : '1.2'} />
     <p class="category-number">0{index + 1}</p>
     <h2>{category.title}</h2>
     <p class="category-subtitle">{category.subtitle}</p>
