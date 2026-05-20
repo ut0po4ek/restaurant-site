@@ -14,7 +14,7 @@ import forkDecor from '../../assets/decor/realistic/fork.png';
 const socialLinks = [
   { name: 'telegram', label: 'Telegram', href: siteConfig.contacts.telegram },
   { name: 'whatsapp', label: 'WhatsApp', href: siteConfig.contacts.whatsapp },
-  { name: 'instagram', label: 'Instagram', href: siteConfig.contacts.instagram },
+  { name: 'instagram', label: 'Instagram*', href: siteConfig.contacts.instagram },
   { name: 'vk', label: 'VK', href: siteConfig.contacts.vk },
 ] as const;
 ---
@@ -39,8 +39,8 @@ const socialLinks = [
       </dl>
       <div class="reservation-socials" aria-label="Соцсети и мессенджеры">
         {socialLinks.filter((link) => link.href).map((link) => (
-          <a href={link.href} aria-label={link.label}>
-            <Icon name={link.name} size={19} />
+          <a href={link.href} class={link.name === 'instagram' ? 'reservation-ig-text' : ''} aria-label={link.label}>
+            {link.name === 'instagram' ? 'IG' : <Icon name={link.name} size={19} />}
           </a>
         ))}
       </div>
@@ -133,6 +133,11 @@ const socialLinks = [
     background: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
     transform: translateY(-1px);
     outline: none;
+  }
+  .reservation-ig-text {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
   }
 
   .reservation-form {

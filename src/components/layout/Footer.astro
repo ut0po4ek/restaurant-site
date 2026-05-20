@@ -5,7 +5,7 @@ const navLinks = siteConfig.nav;
 const socialLinks = [
   { name: 'telegram', label: 'Telegram', href: siteConfig.contacts.telegram },
   { name: 'whatsapp', label: 'WhatsApp', href: siteConfig.contacts.whatsapp },
-  { name: 'instagram', label: 'Instagram', href: siteConfig.contacts.instagram },
+  { name: 'instagram', label: 'Instagram*', href: siteConfig.contacts.instagram },
   { name: 'vk', label: 'VK', href: siteConfig.contacts.vk },
 ] as const;
 ---
@@ -50,6 +50,11 @@ const socialLinks = [
     background: rgba(240, 162, 142, 0.10);
     transform: translateY(-1px);
     outline: none;
+  }
+  .footer-ig-text {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
   }
 </style>
 
@@ -100,8 +105,8 @@ const socialLinks = [
 
         <div class="flex gap-3 mt-6" aria-label="Соцсети и мессенджеры">
           {socialLinks.filter((link) => link.href).map((link) => (
-            <a href={link.href} class="footer-social-link" aria-label={link.label}>
-              <Icon name={link.name} size={18} />
+            <a href={link.href} class={link.name === 'instagram' ? 'footer-social-link footer-ig-text' : 'footer-social-link'} aria-label={link.label}>
+              {link.name === 'instagram' ? 'IG' : <Icon name={link.name} size={18} />}
             </a>
           ))}
         </div>
@@ -133,5 +138,10 @@ const socialLinks = [
         </a>
       </div>
     </div>
+
+    <!-- Legal disclaimer -->
+    <p class="footer-link-sub text-[10px] leading-relaxed mt-6 max-w-xl">
+      *Instagram принадлежит компании Meta Platforms Inc., деятельность которой признана экстремистской и запрещена на территории РФ.
+    </p>
   </div>
 </footer>
